@@ -3,8 +3,19 @@
 // databases : users
 const { Pool } = require("pg");
 
+var allowed = async (username, chat) => {
+	return await pool
+		.query("select username from chat_user where chat_id=$1 and username=$2", [chat, username])
+		.then(res => {
+			if(res.rows.length > 0) return true;
+			return false;
+		}).catch(err => {
+			console.log(err.stack);
+			return false;
+		});
+};
 
-var get_usernames = (sender, data) => {
+var get_usernames = async (sender, data) => {
 	if(allowed(sender, data.chat_id) === 1) {
 		return await pool
 			.query("select username from chat_user where chat_id=$1", [data.chat_id])
@@ -18,7 +29,7 @@ var get_usernames = (sender, data) => {
 	} else return [];
 };
 
-var add_user = (sender, data) => {
+var add_user = async (sender, data) => {
 	if(allowedd(data.person, data.chat_id) === 0) {
 		await pool
 			.query("insert into chat_user(chat_id, username) values ($1, $2)", [data.chat_id, data.person]);
@@ -29,17 +40,24 @@ var add_user = (sender, data) => {
 	} else return false;
 };
 
-var add_chat = (sender, data) => {
+var add_chat = async (sender, data) => {
 	if(users.user_exists(sender)) {
 		let id = await pool
-			.query('insert into chats(name) values ($1)', [sender]).rows[0].chat_id;
+			.query('insert into chats(name) values ($1)', [data.chat_name]).rows[0].chat_id;
 		await pool.query('insert into chat_user(chat_id, username) values ($1, $2)', [id, sender]);
 		server.send(sender, {chat_id: id, sender: sender, message: "CREATED CHAT"});
 	} else return null;
 };
 
-var get_chats = (sender) => {
+var get_chats = async (sender) => {
 	if(users.user_exists(sender))
 		return await pool
-			.query('select chat_id ');//TODO
-}
+			.query('select chats.chat_id as id, chats.name as name from chats '
+				+ "inner join chat_user on chats.chat_id=chat_user.chat_id "
+				+ "where chat_user.username=$1", [sender])
+			.then(res => res.rows)
+			.catch(err => {
+				console.log(err.stack);
+				return [];
+			});
+};
