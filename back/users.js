@@ -4,6 +4,21 @@ const {Pool} = require("pg");
 
 const pool = new Pool()
 
+var signup = async (username, password) {
+	return await pool 
+		.query('select username from users where username=$1', [username])
+		.then(res => {
+			if(res.rows.length === 0) 
+				return await pool.query('insert into users(username, passowrd) values($1, $2)', [username, password])
+					.then(res => {ok: true});
+					.catch(err => { console.log(err.stack); return {ok: false, message: "internale server error"}; });
+			return {ok: false, message: "username already exists"};
+		}).catch(err => {
+			console.log(err.stack);
+			return {ok: false, message: "internal server error"};
+		});		
+};
+
 var get_password = async (username) => { 
 	return await pool
 		.query('SELECT * FROM users WHERE username=$1', [username])
