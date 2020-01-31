@@ -15,6 +15,6 @@
 	"scripts": {
 		"start": "",
 		"init-database": "",
-		"test": "node tests/server.test.js"
+		"test": "node tests/main.test.js"
 	}
 }
