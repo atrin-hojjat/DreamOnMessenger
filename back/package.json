@@ -1,0 +1,20 @@
+{
+	"name": "dom-server",
+	"version": "0.1.0",
+	"dependencies": {
+		"pg": "^7.12.1",
+		"sjcl": "^1.0.4"
+	},
+	"devDependencies": {
+		"sjcl": "^1.0.4",
+		"express": "latest",
+		"body-parser": "latest",
+		"cors": "^2.8.5",
+		"jsonwebtoken": "latest"
+	},
+	"scripts": {
+		"start": "",
+		"init-database": "",
+		"test": "node tests/server.test.js"
+	}
+}
