@@ -63,3 +63,4 @@ var get_chats = async (sender) => {
 			});
 	return [];
 };
+module.exports = {allowed, get_usernames, add_user, add_chat, get_chats};
