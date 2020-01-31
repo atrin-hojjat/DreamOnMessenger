@@ -1,6 +1,6 @@
-// handle user login
-const sjcl = require("sjcl");
+// handle user login const sjcl = require("sjcl");
 const {Pool} = require("pg");
+const sjcl = require("sjcl");
 
 const pool = new Pool()
 
@@ -27,7 +27,7 @@ var get_password = async (username) => {
 		.query('SELECT * FROM users WHERE username=$1', [username])
 		.then( res => {
 			if(res.rows.length === 0) return null;
-			return res.row[0].password
+			return res.rows[0].password
 		}).catch(e => {
 			console.error(e.stack);
 			return null
@@ -37,7 +37,7 @@ var get_password = async (username) => {
 var loginfunc = async (usr, psd) => {
   if(usr === null || usr === undefined) 
 		return {ok: false, message: "Enter Username"};
-  if(get_password(usr) === sjcl.codec.hex.
+  if(await get_password(usr) == sjcl.codec.hex.
 		fromBits(sjcl.hash.sha256.hash(psd)) ) {
 		return {ok: true};
   } else {
@@ -46,7 +46,7 @@ var loginfunc = async (usr, psd) => {
 };
 
 var user_exists = async (usr) => {
-	return await pool.query('select * from users where username=$1', [usr])
+	return await pool.query('select username from users where username=$1', [usr])
 		.then(res => {
 			if(res.rows.length === 0) return false;
 			return true;

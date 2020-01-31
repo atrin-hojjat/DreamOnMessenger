@@ -5,7 +5,7 @@ const msg_handler_db = require("../message_handler.js");
 const cors = require("cors");
 const bodyparser = require("body-parser");
 
-module.exports = { run_server : () => {
+module.exports = { run_server : (callBack) => {
 	try {
 		var app = express();
 /*
@@ -76,7 +76,7 @@ module.exports = { run_server : () => {
 
 		app.use("/chat", chat_router);
 
-		app.listen(8080, () => { console.log("listening"); });
+		app.listen(8080, callBack);
 		return true;
 	} catch(e) {
 		console.log("Starting Server : Error");
