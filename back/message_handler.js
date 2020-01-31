@@ -46,7 +46,8 @@ var add_chat = async (sender, data) => {
 			.query('insert into chats(name) values ($1)', [data.chat_name]).rows[0].chat_id;
 		await pool.query('insert into chat_user(chat_id, username) values ($1, $2)', [id, sender]);
 		server.send(sender, {chat_id: id, sender: sender, message: "CREATED CHAT"});
-	} else return null;
+		return true;
+	} else return false;
 };
 
 var get_chats = async (sender) => {
@@ -60,4 +61,5 @@ var get_chats = async (sender) => {
 				console.log(err.stack);
 				return [];
 			});
+	return [];
 };
