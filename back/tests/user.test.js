@@ -1,13 +1,20 @@
-const https = require("https");
+const http = require("http");
+var querystring = require('querystring');
+
 let users = [{username: "test01", password: "1234"}, {username: "test02", password: "1234"}]
 
 var signup_user = (user) => {
 	console.log("Signing " + user.username + " up");
-	let req = https.request({
+	let data = querystring.stringify(user);
+	let req = http.request({
 		hostname: 'localhost',
 		port: '8080',
-		path: '/users/sighup',
-		method: 'put'
+		path: '/user/signup',
+		method: 'put',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Content-Length': data.length
+		}
 	}, res => {
 		console.log("Status : ", res.statusCode);
 		/*if(res.statsuCode != 200) 
@@ -15,6 +22,7 @@ var signup_user = (user) => {
 		res.on('data', xx => console.log(xx));
 	});
 	req.on('error', err => console.log(err.stack));
+	req.write(data);
 	req.end();
 };
 
@@ -26,7 +34,7 @@ module.exports = {
 			return true;
 		} catch (e) {
 			console.log("signup failed");
-			console.log(e.stack());
+			console.log(e);
 			return false;
 		}
 	}

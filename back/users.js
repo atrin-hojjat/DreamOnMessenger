@@ -9,8 +9,9 @@ var signup = async (username, password) => {
 		.query('select username from users where username=$1', [username])
 		.then(async res => {
 			if(res.rows.length === 0) 
-				return await pool.query('insert into users(username, passowrd) values($1, $2)', [username, password])
-					.then(res => {ok: true})
+				return await pool.query('insert into users(username, password) values($1, $2)', [username, sjcl.codec.hex.
+		fromBits(sjcl.hash.sha256.hash(password))])
+					.then(res => {return {ok: true};})
 					.catch(err => { 
 						console.log(err.stack); 
 						return {ok: false, message: "internale server error"}; });
@@ -37,7 +38,7 @@ var loginfunc = async (usr, psd) => {
   if(usr === null || usr === undefined) 
 		return {ok: false, message: "Enter Username"};
   if(get_password(usr) === sjcl.codec.hex.
-		fromBits(sjcl.hash.sha256.ash(psd)) ) {
+		fromBits(sjcl.hash.sha256.hash(psd)) ) {
 		return {ok: true};
   } else {
 		return {ok: false, message : "Wrong Username or Password"};

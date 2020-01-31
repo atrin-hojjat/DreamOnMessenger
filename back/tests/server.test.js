@@ -32,6 +32,7 @@ module.exports = { run_server : () => {
 
 		user_router.put("/signup", async (req, res) => {
 			let r = await user_db.signup(req.body.username, req.body.password)
+			console.log(r)
 			if(r.ok === true) return res.status(200).send({message: "signup successful"})
 			else return res.status(400).send({message: r.message});
 		});
