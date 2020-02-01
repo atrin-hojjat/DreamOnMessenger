@@ -11,13 +11,10 @@ let send = (sender , message ) =>{
       sock.sock.write ( message);
     }
   }
-});
-server.liseten({
+};
+server.listen({
   port: '8080' ,
-  host: '127.0.0.1',
-});
-server.listen( port , host () => {
-  console.log('tcp is running on port' + port ); 
+  host: '127.0.0.1'
 });
 server.on('error' , (err) =>{
   console.log( err );
@@ -27,8 +24,9 @@ server.on('connection' , (sock) => {
   sock.on('data' , (data) =>{
     let xxx = JSON.parse(data) ;
     if( xxx.usr !== null && xxx.psd !== null ){
-      if( (var login_result = loginfunc ( xxx.usr , xxx.psd )).ok == true ){
-        sockets.push({xxx.usr, xxx.psd});
+      var login_result = loginfunc ( xxx.usr , xxx.psd )
+      if( login_result.ok == true ){
+        sockets.push({id: xxx.usr, sock: sock});
         sock.on('data' , (data) =>{
           
           let xx = JSON.parse(data);
@@ -50,13 +48,13 @@ server.on('connection' , (sock) => {
             }
           } 
         });
-      }
+      } else sock.write(login_result);
     }
   });
-  client.on( err ) =>{
+  sock.on( 'error', (err ) =>{
     console.log(err); 
   }); 
   console.log('Client connected') ;
 });
 
-
+module.exports = {send}
