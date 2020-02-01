@@ -35,8 +35,12 @@ var get_password = async (username) => {
 };
 
 var loginfunc = async (usr, psd) => {
-  if(usr === null || usr === undefined) 
+  if(usr === null || usr === undefined /*|| !await user_exists(usr)*/) 
 		return {ok: false, message: "Enter Username"};
+	console.log(usr); console.log(psd);
+	console.log(await get_password(usr));
+	console.log(sjcl.codec.hex.
+		fromBits(sjcl.hash.sha256.hash(psd)))
   if(await get_password(usr) == sjcl.codec.hex.
 		fromBits(sjcl.hash.sha256.hash(psd)) ) {
 		return {ok: true};
