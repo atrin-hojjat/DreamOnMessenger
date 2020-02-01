@@ -2,13 +2,18 @@ const net = require('net') ;
 
 const server = net.createServer();
 var sockets = [];
+const querystring = require("querystring");
 const message_handler = require ('./message_handler');
 const users = require ('./users');
+
+function write(sock, message) {
+  sock.write(querystring.stringify(message));
+}
 
 let send = (sender , message ) =>{
   for(let sock in sockets ){
     if( sock.id === sender ) {
-      sock.sock.write ( message);
+      write (sock.sock, message);
     }
   }
 };
@@ -24,7 +29,7 @@ server.on('connection' , (sock) => {
   sock.on('data' , (data) =>{
     let xxx = JSON.parse(data) ;
     if( xxx.usr !== null && xxx.psd !== null ){
-      var login_result = loginfunc ( xxx.usr , xxx.psd )
+      var login_result = users.loginfunc ( xxx.usr , xxx.psd )
       if( login_result.ok == true ){
         sockets.push({id: xxx.usr, sock: sock});
         sock.on('data' , (data) =>{
@@ -48,7 +53,7 @@ server.on('connection' , (sock) => {
             }
           } 
         });
-      } else sock.write(login_result);
+      } else write(sock, login_result);
     }
   });
   sock.on( 'error', (err ) =>{
