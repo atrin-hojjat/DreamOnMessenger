@@ -13,7 +13,7 @@
 		"jsonwebtoken": "latest"
 	},
 	"scripts": {
-		"start": "node server.js",
+		"start": "node main.js",
 		"init-database": "",
 		"test": "node tests/main.test.js"
 	}
