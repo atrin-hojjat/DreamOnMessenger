@@ -2,13 +2,16 @@
 // postgresql
 // databases : users
 const { Pool } = require("pg");
+const users = require("./users.js");
+
+const pool = new Pool()
 
 var allowed = async (username, chat) => {
 	return await pool
 		.query("select username from chat_user where chat_id=$1 and username=$2", [chat, username])
 		.then(res => {
-			if(res.rows.length > 0) return true;
-			return false;
+			if(res.rows.length === 0) return false;
+			return true;
 		}).catch(err => {
 			console.log(err.stack);
 			return false;
@@ -16,11 +19,11 @@ var allowed = async (username, chat) => {
 };
 
 var get_usernames = async (sender, data) => {
-	if(allowed(sender, data.chat_id) === 1) {
+	if(await allowed(sender, data.chat_id) === true) {
 		return await pool
 			.query("select username from chat_user where chat_id=$1", [data.chat_id])
 			.then(res => {
-				return res;
+				return res.rows;
 			})
 			.catch(err => {
 				console.log(err.stack);
@@ -29,23 +32,24 @@ var get_usernames = async (sender, data) => {
 	} else return [];
 };
 
-var add_user = async (sender, data) => {
-	if(allowedd(data.person, data.chat_id) === 0) {
+var add_user = async (sender, data, send) => {
+	if(await allowed(sender, data.chat_id) === true && await allowed(data.person, data.chat_id) === false) {
+		console.log("ALLOWED");
 		await pool
 			.query("insert into chat_user(chat_id, username) values ($1, $2)", [data.chat_id, data.person]);
 		let tt = "" + sender + " ADDED " + data.person + " to " + data.chat_id;
-		for(pp in get_usernames(sender, data))
-			server.send(pp, {sender: sender, chat_id: data.chat_id, message: tt});
+		for(pp of await get_usernames(sender, data))
+			send(pp.username, {sender: sender, chat_id: data.chat_id, message: tt});
 		return true;
 	} else return false;
 };
 
-var add_chat = async (sender, data) => {
+var add_chat = async (sender, data, send) => {
 	if(users.user_exists(sender)) {
-		let id = await pool
-			.query('insert into chats(name) values ($1)', [data.chat_name]).rows[0].chat_id;
+		let id = (await pool
+			.query('insert into chats(name) values ($1) returning chat_id', [data.chat_name])).rows[0].chat_id;
 		await pool.query('insert into chat_user(chat_id, username) values ($1, $2)', [id, sender]);
-		server.send(sender, {chat_id: id, sender: sender, message: "CREATED CHAT"});
+		send(sender, {chat_id: id, sender: sender, message: "CREATED CHAT"});
 		return true;
 	} else return false;
 };

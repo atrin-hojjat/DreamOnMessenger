@@ -19,7 +19,7 @@ create table chats (
 	chat_id SERIAL PRIMARY KEY);
 	
 create table chat_user (
-		chat_id serial primary key,
+		chat_id serial,
 		username varchar(32) not null
 	);
 

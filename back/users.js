@@ -5,24 +5,24 @@ const sjcl = require("sjcl");
 const pool = new Pool()
 
 var signup = async (username, password) => {
-	return await pool 
+	return await pool
 		.query('select username from users where username=$1', [username])
 		.then(async res => {
-			if(res.rows.length === 0) 
+			if(res.rows.length === 0)
 				return await pool.query('insert into users(username, password) values($1, $2)', [username, sjcl.codec.hex.
 		fromBits(sjcl.hash.sha256.hash(password))])
 					.then(res => {return {ok: true};})
-					.catch(err => { 
-						console.log(err.stack); 
+					.catch(err => {
+						console.log(err.stack);
 						return {ok: false, message: "internale server error"}; });
 			return {ok: false, message: "username already exists"};
 		}).catch(err => {
 			console.log(err.stack);
 			return {ok: false, message: "internal server error"};
-		});		
+		});
 };
 
-var get_password = async (username) => { 
+var get_password = async (username) => {
 	return await pool
 		.query('SELECT * FROM users WHERE username=$1', [username])
 		.then( res => {
@@ -35,7 +35,7 @@ var get_password = async (username) => {
 };
 
 var loginfunc = async (usr, psd) => {
-  if(usr === null || usr === undefined) 
+  if(usr === null || usr === undefined)
 		return {ok: false, message: "Enter Username"};
   if(await get_password(usr) == sjcl.codec.hex.
 		fromBits(sjcl.hash.sha256.hash(psd)) ) {
