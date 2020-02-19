@@ -39,7 +39,7 @@ var add_user = async (sender, data, send) => {
 			.query("insert into chat_user(chat_id, username) values ($1, $2)", [data.chat_id, data.person]);
 		let tt = "" + sender + " ADDED " + data.person + " to " + data.chat_id;
 		for(pp of await get_usernames(sender, data))
-			send(pp.username, {sender: sender, chat_id: data.chat_id, message: tt});
+			send(pp.username, {sender: sender, chat_id: data.chat_id, message: tt, command: "add_user_to_chat"});
 		return true;
 	} else return false;
 };
@@ -49,7 +49,7 @@ var add_chat = async (sender, data, send) => {
 		let id = (await pool
 			.query('insert into chats(name) values ($1) returning chat_id', [data.chat_name])).rows[0].chat_id;
 		await pool.query('insert into chat_user(chat_id, username) values ($1, $2)', [id, sender]);
-		send(sender, {chat_id: id, sender: sender, message: "CREATED CHAT"});
+		send(sender, {chat_id: id, sender: sender, message: "CREATED CHAT", command: "add_chat"});
 		return true;
 	} else return false;
 };

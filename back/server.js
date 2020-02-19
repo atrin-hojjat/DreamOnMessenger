@@ -42,12 +42,12 @@ server.on('connection' , (sock) => {
 
 						let xx = JSON.parse(data);
 						console.log(xx);
-						if( xx.command == 'Make a chatroom' ){
+						if( xx.command == 'add_chat' ){
 							if( xx.chat_name !== null && xx.chat_name !== undefined){
 								message_handler.add_chat(xxx.usr , xx , send) ;
 							}
 						}
-						else if (xx.command == 'Send a message'){
+						else if (xx.command == 'new_message'){
 							if( xx.chat_id !== null && xx.chat_id !== undefined){
 								message_handler.get_usernames(xxx.usr, xx)
 								.then(res => {
@@ -59,9 +59,8 @@ server.on('connection' , (sock) => {
 								});
 							}
 						}
-						else if( xx.command == 'Add a person to chatroom' ){
+						else if( xx.command == 'add_user_to_chat' ){
 							if( xx.person !== null && xx.chat_id !== null && xx.person !== undefined && xx.chat_id !== undefined){
-								console.log("TEST");
 								 message_handler.add_user ( xxx.usr , xx , send) ;
 							}
 						}
