@@ -1,10 +1,16 @@
-const net = require('net') ;
+const WS = require('ws') ;
 
-const server = net.createServer();
+const server = new WS.Server({port: 8080});
 var sockets = [];
 const querystring = require("querystring");
 const message_handler = require ('./message_handler');
 const users = require ('./users');
+
+function parse(data) {
+	console.log(data);
+	if(data == null || data == undefined || data == "" || data === "") return {};
+	return JSON.parse(data);
+}
 
 function write(sock, message) {
   sock.write(JSON.stringify(message));
@@ -18,10 +24,11 @@ var send = (sender , message ) => {
   }
 };
 var start = () => {
+	/*
 	server.listen({
 		port: '8080' ,
 		host: '127.0.0.1'
-	});
+	});*/
 }
 server.on('error' , (err) =>{
   console.log( err );
@@ -31,7 +38,7 @@ server.on('connection' , (sock) => {
 
   sock.on('data' , (data) =>{
 		if(LOGED) return ;
-    let xxx = JSON.parse(data) ;
+    let xxx = parse(data) ;
     if( xxx.usr !== null && xxx.psd !== null ){
       users.loginfunc ( xxx.usr , xxx.psd ).then( login_result => {
 				if( login_result.ok == true ){
@@ -40,7 +47,7 @@ server.on('connection' , (sock) => {
 					sockets.push({id: xxx.usr, sock: sock});
 					sock.on('data' , (data) =>{
 
-						let xx = JSON.parse(data);
+						let xx = parse(data);
 						console.log(xx);
 						if( xx.command == 'add_chat' ){
 							if( xx.chat_name !== null && xx.chat_name !== undefined){
