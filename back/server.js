@@ -7,13 +7,12 @@ const message_handler = require ('./message_handler');
 const users = require ('./users');
 
 function parse(data) {
-	console.log(data);
 	if(data == null || data == undefined || data == "" || data === "") return {};
 	return JSON.parse(data);
 }
 
 function write(sock, message) {
-  sock.write(JSON.stringify(message));
+  sock.send(JSON.stringify(message));
 }
 
 var send = (sender , message ) => {
@@ -36,7 +35,7 @@ server.on('error' , (err) =>{
 server.on('connection' , (sock) => {
 	let LOGED = false;
 
-  sock.on('data' , (data) =>{
+  sock.on('message' , (data) =>{
 		if(LOGED) return ;
     let xxx = parse(data) ;
     if( xxx.usr !== null && xxx.psd !== null ){
@@ -45,7 +44,7 @@ server.on('connection' , (sock) => {
 					write(sock, {ok: true, message: "Login successful"});
 					LOGED = true;
 					sockets.push({id: xxx.usr, sock: sock});
-					sock.on('data' , (data) =>{
+					sock.on('message' , (data) =>{
 
 						let xx = parse(data);
 						console.log(xx);
@@ -70,6 +69,10 @@ server.on('connection' , (sock) => {
 							if( xx.person !== null && xx.chat_id !== null && xx.person !== undefined && xx.chat_id !== undefined){
 								 message_handler.add_user ( xxx.usr , xx , send) ;
 							}
+						}
+						else if( xx.command == "get_chats") {
+							message_handler.get_chats(xxx.usr).then(chats => { 
+								write(sock, {chats: chats, command: "get_chats"})});
 						}
 					});
 				} else write(sock, login_result);
