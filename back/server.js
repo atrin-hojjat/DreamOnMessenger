@@ -35,8 +35,8 @@ server.on('connection' , (sock) => {
     if( xxx.usr !== null && xxx.psd !== null ){
       users.loginfunc ( xxx.usr , xxx.psd ).then( login_result => {
 				if( login_result.ok == true ){
+					write(sock, {ok: true, message: "Login successful"});
 					LOGED = true;
-					console.log(LOGED) ;
 					sockets.push({id: xxx.usr, sock: sock});
 					sock.on('data' , (data) =>{
 
