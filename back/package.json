@@ -1,16 +1,20 @@
 {
 	"name": "dom-server",
 	"version": "0.1.0",
+	"description": "A simple Webbased Messanger",
+	"repository": "https://github.com/atrin-hojjat/DreamOnMessenger",
+	"license": "GNU GPL V3",
 	"dependencies": {
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"express-session": "^1.17.0",
 		"pg": "^7.12.1",
 		"sjcl": "^1.0.4",
+		"uuid": "^3.4.0",
 		"ws": "^7.2.1"
 	},
 	"devDependencies": {
-		"sjcl": "^1.0.4",
-		"express": "latest",
-		"body-parser": "latest",
-		"cors": "^2.8.5",
 		"jsonwebtoken": "latest"
 	},
 	"scripts": {

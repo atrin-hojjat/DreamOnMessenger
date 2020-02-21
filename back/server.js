@@ -1,5 +1,5 @@
 const express = require('express')
-const https = require('https')
+const https = require('http')
 const session = require('express-session');
 const WS = require('ws') ;
 const uuid = require('uuid');
@@ -7,13 +7,19 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-const socketserver = new WS.Server({port: 8080});
+const socketserver = new WS.Server({noServer:true, clientTracing: false});
 var sockets = new Map(); // Session Id to socket
 var sessions = new Map(); // username to session Id
 var usersmap = new Map(); // session Id to user
 const querystring = require("querystring");
 const message_handler = require ('./message_handler');
 const users = require ('./users');
+
+var sessionParser = session({
+	saveUninitialized: false,
+	secret: process.env.SECRET,
+	resave: false
+});
 
 function parse(data) {
 	if(data == null || data == undefined || data == "" || data === "") return {};
@@ -42,18 +48,18 @@ var send = (sender , message ) => {
 var Login = (req, res) => {
 	let usr = req.body.login_username;
 	let psd = req.body.login_password;
-	users.loginfunc(usr, psd).then(login_result => {
-		if(login_results.ok == true) {
+	return users.loginfunc(usr, psd).then(login_result => {
+		if(login_result.ok == true) {
 
 			const id = uuid.v4();
 
 			req.session.sessionId = id;
-			res.status(200).send({ok: true, message: "Login Successful"});
 			usersmap.set(id, usr);
-		} else res.status(200).send(res);
+			return res.status(200).send({ok: true, message: "Login Successful"});
+		} else return res.status(200).send({ok: false, message: "Wrong Username or Password"});
 	}).catch(e => {
 		console.log(e.stack);
-		res.status(500).send({ok: false, message: "Internal Server Error"})
+		return res.status(500).send({ok: false, message: "Internal Server Error"})
 	});
 }
 
@@ -81,12 +87,7 @@ var Signup = (req, res) => {
 }
 
 var start = () => {
-	var sessionParse = session({
-		saveUnintialized: false,
-		secret: process.env.SECRET,
-		resave: false;
-	});
-
+/*
 	var whitelist = ['http://localhost:3000', 'http://localhost:8005']
 	var corsOptions = {
 		origin: function (origin, callback) {
@@ -99,16 +100,17 @@ var start = () => {
 		}
 	}
 	app.use(cors(corsOptions));
-
-	// set public folders
+*/
 	app.use(sessionParser);
+	app.use(bodyparser.urlencoded({extended: true}));
 		
-
+	app.use("/assets", express.static("../assets"));
+	app.use("/", express.static("../front"));
 	app.post('/session/login', Login);
 	app.delete('/session/logout', Logout);
 	app.put('/session/signup', Signup);
 
-	const server = https.createServer();
+	const server = https.createServer(app);
 
 	server.on('upgrade', function(req, sock, head) {
 		console.log("Upgrading session");
@@ -125,7 +127,7 @@ var start = () => {
 		});
 	});
 
-	server.listen(8080, () => {
+	server.listen({host: "127.0.0.1", port: 8080}, () => {
 		console.log("Listening on port 8080...");
 	});
 }
