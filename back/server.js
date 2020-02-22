@@ -136,7 +136,7 @@ var start = () => {
 		});
 	});
 
-	server.listen({host: "127.0.0.1", port: 8080}, () => {
+	server.listen({host: "0.0.0.0", port: 8080}, () => {
 		console.log("Listening on port 8080...");
 	});
 }
