@@ -83,7 +83,14 @@ var Logout = (req, res) => {
 }
 
 var Signup = (req, res) => {
-
+	if(req.body.username && req.body.password)
+		return users.signup(req.body.username, req.body.password).then(r => {
+			return res.status(200).send(r);
+		}).catch(e => {
+			console.log(e.stack);
+			return res.status(500).send({ok: false, messsage: "Internal Server Error"});
+		});
+	else return res.status(200).send({ok: false, message: "Please fill out all the necessary forms"});
 }
 
 var start = () => {
