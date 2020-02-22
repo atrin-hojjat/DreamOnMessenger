@@ -1,10 +1,44 @@
 
+const init_login_info = { logedin: false, username: null, password: null};
+var login_info = init_login_info;
+let cnt = 0;
+
+var init = () => {
+	$("#dialog-content").load("/login.htm", (a, b, c) => {
+		$("#login-username").val(login_info.username);
+		$("#login-password").val(login_info.password);
+		$("#login-username").change(() => {
+			login_info.username = $("#login-username").val();
+		});
+		$("#login-password").change(() => {
+			login_info.password = $("#login-password").val();
+		});
+		$("#login-form").submit((e) => {
+			e.preventDefault();
+
+			$.ajax({
+				method: 'POST',
+				url: '/session/login',
+				data: $("#login-form").serialize(),
+				success: (jdt) => {
+					if(jdt.ok == true) {
+						login_info.logedin = true;
+						cnt = 0;
+						start();
+					} else {
+						console.log(jdt.message);
+						$("#login-message").text(jdt.message);
+					}
+				}
+			});
+		});
+	});
+}
+
 var start = () => { 
 
-	var sock = new ReconnectingWebSocket("ws://localhost:8080/");
+	var sock = new WebSocket("ws://localhost:8080/");
 
-	const init_login_info = { logedin: false, username: null, password: null};
-	var login_info = init_login_info;
 	var last_message = {};
 	var not_seen_count = {};
 
@@ -46,63 +80,48 @@ var start = () => {
 	}
 
 	sock.onopen = (data) => {
-		if(login_info.username != null && login_info.password != null) 
-				sock.send(JSON.stringify({usr: login_info.username, psd: login_info.password}));
-		else 
-		$("#dialog-content").load("login.htm", (a, b, c) => {
-			$("#login-username").val(login_info.username);
-			$("#login-username").change(() => {
-				login_info.username = $("#login-username").val();
-			});
-			$("#login-password").change(() => {
-				login_info.password = $("#login-password").val();
-			});
-			$("#login-button").click(() => {
-				sock.send(JSON.stringify({usr: login_info.username, psd: login_info.password}));
-			});
-		});
+		cnt = 0;
+		sock.send("{\"command\":\"get_chats\"}");
+		$("#dialog-box").fadeOut();
 	};
 	sock.onclose = (data) => {
 		$("#dialog\\-content").html("<p> Lost Connection with the server. <br> Reconnecting...</p>" + 
 					"<span class=\"loader-frame\"> <span class=\"loader-inner\"> </span> </span>");
 		$("#dialog-box").fadeIn();
-		login_info.logedin = false;
+		setTimeout(() => {
+			if(cnt < 5) {
+				cnt++;
+				console.log(cnt)
+				login_info.logedin = false
+				start();
+			} else {
+				alert("Please retry")
+				init();
+			}
+		}, 1000);
 	};
 
 
 
 	sock.onmessage = (dataw) => {
 		let data = dataw.data
-		if(login_info.logedin == true) {
-			let jdata = JSON.parse(data);
-			switch(jdata.command) {
-				case "add_chat":
-					add_chat(jdata);
-					break;
-				case "get_chats":
-					re_load_chats(jdata.chats);
-					break;
-			}
-		} else {
-			let jdata = JSON.parse(data);
-			if(jdata.ok == true) {
-				login_info.logedin = true;
-				sock.send("{\"command\":\"get_chats\"}");
-				$("#dialog-box").fadeOut();
-			} else {
-				$("#login-message").html(jdata.message);
-				login_info.password = null;
-			}
+		let jdata = JSON.parse(data);
+		switch(jdata.command) {
+			case "add_chat":
+				add_chat(jdata);
+				break;
+			case "get_chats":
+				re_load_chats(jdata.chats);
+				break;
 		}
-
 	};
 	sock.onerror = (data) => {
 		$("#dialog\\-content").html("<p> Lost Connection with the server. <br> Reconnecting...</p>" + 
 					"<span class=\"loader-frame\"> <span class=\"loader-inner\"> </span> </span>");
 		$("#dialog-box").fadeIn();
-		login_info.login = false;
+		sock.close();
 	};
 }
 
 
-$(document).ready(start);
+$(document).ready(init);

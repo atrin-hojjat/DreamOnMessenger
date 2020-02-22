@@ -46,8 +46,10 @@ var send = (sender , message ) => {
 };
 
 var Login = (req, res) => {
-	let usr = req.body.login_username;
-	let psd = req.body.login_password;
+	let usr = req.body["login-username"];
+	let psd = req.body["login-password"];
+	console.log(usr);
+	console.log(psd);
 	return users.loginfunc(usr, psd).then(login_result => {
 		if(login_result.ok == true) {
 
@@ -187,7 +189,7 @@ socketserver.on('connection' , (sock, req) => {
   });
 
 	sock.on('close', () => {
-		map.delete(sessionId);
+		sockets.delete(sessionId);
 	});
   console.log('Client connected') ;
 });
