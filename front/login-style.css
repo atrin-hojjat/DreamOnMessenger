@@ -17,14 +17,14 @@
     transform: translate(-50%, -50%);
 }
 .login-bott{
-    background-color: #741320;
+    background-color:#F85252;
     color: beige;
     position: fixed;
     width:100%;
     border-radius: 50px;
 }
 .login-bott:hover {
-    background-color: #410b12;
+    background-color: rgb(156, 37, 37);
     color: beige;
     position: fixed;
     width:100%;
