@@ -35,6 +35,11 @@
 	animation: loaderinner 2s infinite ease-in;
 }
 
+.modal-message {
+	color: beige;
+	padding: 5%;
+}
+
 @keyframes loaderframe {
 	0% { transform: rotate(0deg); }
 	25% { transform: rotate(180deg); }
