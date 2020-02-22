@@ -21,6 +21,7 @@ var init = () => {
 				url: '/session/login',
 				data: $("#login-form").serialize(),
 				success: (jdt) => {
+					console.log(jdt)
 					if(jdt.ok == true) {
 						login_info.logedin = true;
 						cnt = 0;
@@ -36,8 +37,8 @@ var init = () => {
 }
 
 var start = () => { 
-
-	var sock = new WebSocket("ws://localhost:8080/");
+	let socketid = { address: 'localhost', port: 8080};
+	var sock = new WebSocket(`ws://${socketid.address}:${socketid.port}/`);
 
 	var last_message = {};
 	var not_seen_count = {};
@@ -85,7 +86,8 @@ var start = () => {
 		$("#dialog-box").fadeOut();
 	};
 	sock.onclose = (data) => {
-		$("#dialog\\-content").html("<p> Lost Connection with the server. <br> Reconnecting...</p>" + 
+		$("#dialog\\-content").html("<p class=\"justify-content-center lab modal-message\">" +
+			"Lost Connection with the server. <br> Reconnecting...</p>" + 
 					"<span class=\"loader-frame\"> <span class=\"loader-inner\"> </span> </span>");
 		$("#dialog-box").fadeIn();
 		setTimeout(() => {
@@ -116,7 +118,8 @@ var start = () => {
 		}
 	};
 	sock.onerror = (data) => {
-		$("#dialog\\-content").html("<p> Lost Connection with the server. <br> Reconnecting...</p>" + 
+		$("#dialog\\-content").html("<p class=\"justify-content-center lab modal-message\">" +
+			"Lost Connection with the server. <br> Reconnecting...</p>" + 
 					"<span class=\"loader-frame\"> <span class=\"loader-inner\"> </span> </span>");
 		$("#dialog-box").fadeIn();
 		sock.close();
