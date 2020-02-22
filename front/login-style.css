@@ -74,5 +74,6 @@
 	color: beige;
 }
 .login-warning{
-    color: red;
+    color: beige;
+    font-size: large;
 }
