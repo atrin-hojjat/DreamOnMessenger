@@ -33,3 +33,19 @@
     font-size: large;
     padding: 3%;
 }
+.signup-button {
+    background-color: #F85252;
+    /* position: fixed;
+    right: 41.5%; */
+    border-radius: 40px;
+    font-size: larger;
+    color:rgb(252, 252, 252);
+}
+.signup-button:hover {
+    background-color: rgb(156, 37, 37);
+    /* position: fixed;
+    right: 41.5%; */
+    border-radius: 70px;
+    font-size: larger;
+    color:rgb(252, 252, 252);
+}
