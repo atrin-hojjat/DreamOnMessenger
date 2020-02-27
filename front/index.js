@@ -3,8 +3,19 @@ const init_login_info = { logedin: false, username: null, password: null};
 var login_info = init_login_info;
 let cnt = 0;
 
+var show_just_waiting = () => {
+	$("#waiting-modal").hide();
+	$("#login-modal").hide();
+	$("#signup-modal").hide();
+}
+var toggle_login = () => {
+	$("#signup-root").toggle('slow')
+	$("#login-root").toggle('slow')
+//	$("modal-content").animate({ trans: 180 });
+}
+
 var init = () => {
-	$("#dialog-content").load("/login.htm", (a, b, c) => {
+	$("#login-modal").load("/login.htm", (a, b, c) => {
 		$("#login-username").val(login_info.username);
 		$("#login-password").val(login_info.password);
 		$("#login-username").change(() => {
@@ -13,8 +24,13 @@ var init = () => {
 		$("#login-password").change(() => {
 			login_info.password = $("#login-password").val();
 		});
+		$("#login-toggle-button").click((e) => {
+			e.preventDefault();
+			toggle_login()
+		});
 		$("#login-form").submit((e) => {
 			e.preventDefault();
+			$("#waiting-modal").show();
 
 			$.ajax({
 				method: 'POST',
@@ -22,6 +38,7 @@ var init = () => {
 				data: $("#login-form").serialize(),
 				success: (jdt) => {
 					console.log(jdt)
+					$("#waiting-modal").hide();
 					if(jdt.ok == true) {
 						login_info.logedin = true;
 						cnt = 0;
@@ -33,6 +50,44 @@ var init = () => {
 				}
 			});
 		});
+		$("#waiting-modal").hide();
+	});
+	$("#signup-modal").load("/signup.htm", (a, b, c) => {
+		$("#signup-username").val(login_info.username);
+		$("#signup-password").val(login_info.password);
+		$("#signup-username").change(() => {
+			login_info.username = $("#signip-username").val();
+		});
+		$("#signup-password").change((e) => {
+			e.preventDefault();
+			login_info.password = $("#signup-password").val();
+		});
+		$("#signup-toggle-button").click(() => {
+			toggle_login()
+		});
+		$("#signup-form").submit((e) => {
+			e.preventDefault();
+			$("#waiting-modal").show();
+
+			$.ajax({
+				method: 'POST',
+				url: '/session/signup',
+				data: $("#signup-form").serialize(),
+				success: (jdt) => {
+					console.log(jdt)
+					$("#waiting-modal").hide();
+					if(jdt.ok == true) {
+						login_info.logedin = true;
+						cnt = 0;
+						start();
+					} else {
+						console.log(jdt.message);
+						$("#signup-message").text(jdt.message);
+					}
+				}
+			});
+		});
+
 	});
 }
 
@@ -86,9 +141,9 @@ var start = () => {
 		$("#dialog-box").fadeOut();
 	};
 	sock.onclose = (data) => {
-		$("#dialog\\-content").html("<p class=\"justify-content-center lab modal-message\">" +
-			"Lost Connection with the server. <br> Reconnecting...</p>" + 
-					"<span class=\"loader-frame\"> <span class=\"loader-inner\"> </span> </span>");
+		$("#modal-message-content").
+			html("<p class=\"justify-content-center lab modal-message\">" +
+			"Lost Connection with the server. <br> Reconnecting...</p>"); 
 		$("#dialog-box").fadeIn();
 		setTimeout(() => {
 			if(cnt < 5) {
@@ -118,9 +173,11 @@ var start = () => {
 		}
 	};
 	sock.onerror = (data) => {
-		$("#dialog\\-content").html("<p class=\"justify-content-center lab modal-message\">" +
-			"Lost Connection with the server. <br> Reconnecting...</p>" + 
-					"<span class=\"loader-frame\"> <span class=\"loader-inner\"> </span> </span>");
+		$("#modal-message-content").
+			html("<p class=\"justify-content-center lab modal-message\">" +
+			"Lost Connection with the server. <br> Reconnecting...</p>"); 
+		show_just_waiting();
+
 		$("#dialog-box").fadeIn();
 		sock.close();
 	};

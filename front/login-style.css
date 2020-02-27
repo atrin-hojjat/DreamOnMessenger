@@ -1,3 +1,6 @@
+#signup-root {
+	display: none;
+}
 .login-bott{
     background-color:#F85252;
     color: beige;
