@@ -101,7 +101,7 @@ var init = () => {
 
 var start = () => { 
 	let socketid = { address: 'localhost', port: 8080};
-	var sock = new WebSocket(`ws://${socketid.address}:${socketid.port}/`);
+	var sock = new WebSocket(`ws://${window.location.host}/`);
 
 	var last_message = {};
 	var not_seen_count = {};
