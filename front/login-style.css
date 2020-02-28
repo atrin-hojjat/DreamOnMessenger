@@ -33,7 +33,9 @@
 }
 
 .login-h4 {
-	color: beige;
+    color: beige;
+    position: relative;
+    top:9px;
 }
 .login-warning{
     color: beige;
@@ -42,27 +44,30 @@
 }
 .signup-button {
     background-color: #F85252;
-    /* position: fixed;
-    right: 41.5%; */
-    height: 300px;
-    width: 300px;
-    border-radius: 100%;
-    font-size: larger;
+    height: 45px;
+    width: 45px;
+    position: relative;
+    top:3px;
+    border-radius: 50%;
+    font-size: xx-large;
+    font-weight: bold;
     color:rgb(252, 252, 252);
 }
 .signup-button:hover {
     background-color: rgb(182, 35, 35);
     /* position: fixed;
     right: 41.5%; */
-    border-radius: 100%;
-    font-size: larger;
+    border-radius: 50%;
+    font-size: xx-large;
+    font-weight: bold;
     color:rgb(252, 252, 252);
 }
 .signup-button:active {
     background-color: rgb(248, 74, 74);
     /* position: fixed;
     right: 41.5%; */
-    border-radius: 100%;
-    font-size: larger;
+    border-radius: 50%;
+    font-size: xx-large;
+    font-weight: bold;
     color:rgb(252, 252, 252);
 }
