@@ -25,6 +25,18 @@ var toggle_login = () => {
 }
 
 var init = () => {
+		$.ajax({
+			method: 'GET',
+			url: '/session/check',
+			success: (jdt) => {
+				console.log(jdt)
+				if(jdt.loged == true) {
+					login_info.logedin = true;
+					login_info.username = jdt.username;
+					start()
+				}
+			}
+		});
 	$("#login-modal").load("/login.htm", (a, b, c) => {
 		$("#login-username").val(login_info.username);
 		$("#login-password").val(login_info.password);
@@ -97,11 +109,34 @@ var init = () => {
 		});
 
 	});
+	$("#LOGOUT").click(() => {
+		logout();
+	});
+}
+
+var sock;
+
+var logout = () => {
+	if(sock) sock.close()
+	show_just_waiting();
+	$("#dialog-box").fadeIn();
+	$.ajax({
+		method: 'delete',
+		url: '/session/logout',
+		success: (jdt) => {
+			$("#waiting-modal").hide();
+			$("#login-root").show();
+			$("#signup-root").hide();
+			login_info.logedin = false;
+			login_info.username = "";			
+		}
+	});
+
 }
 
 var start = () => { 
 	let socketid = { address: 'localhost', port: 8080};
-	var sock = new WebSocket(`ws://${window.location.host}/`);
+	sock = new WebSocket(`ws://${window.location.host}/`);
 
 	var last_message = {};
 	var not_seen_count = {};
@@ -149,11 +184,12 @@ var start = () => {
 		$("#dialog-box").fadeOut();
 	};
 	sock.onclose = (data) => {
-		$("#modal-message-content").
-			html("<p class=\"justify-content-center lab modal-message\">" +
-			"Lost Connection with the server. <br> Reconnecting...</p>"); 
+//		$("#modal-message-content").
+//			html("<p class=\"justify-content-center lab modal-message\">" +
+//			"Lost Connection with the server. <br> Reconnecting...</p>"); 
+		show_just_waiting();
 		$("#dialog-box").fadeIn();
-		setTimeout(() => {
+		if(loged) setTimeout(() => {
 			if(cnt < 5) {
 				cnt++;
 				console.log(cnt)
@@ -164,7 +200,6 @@ var start = () => {
 				$("#modal-message-content").html("");
 				$("#waiting-modal").hide();
 				$("#login-root").show();
-				$("#signup-root").show();
 				$("#signup-root").hide();
 							
 			}

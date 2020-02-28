@@ -45,6 +45,12 @@ var send = (sender , message ) => {
 	}
 };
 
+var checkLogin = (req, res) => {
+	if(req.session.sessionId) {
+		return res.status(200).send({loged: true, username: req.session.username})
+	} else return res.status(200).send({loged: false});
+}
+
 var Login = (req, res) => {
 	let usr = req.body["login-username"];
 	let psd = req.body["login-password"];
@@ -56,6 +62,7 @@ var Login = (req, res) => {
 			const id = uuid.v4();
 
 			req.session.sessionId = id;
+			req.session.username = usr;
 			usersmap.set(id, usr);
 			return res.status(200).send({ok: true, message: "Login Successful"});
 		} else return res.status(200).send({ok: false, message: "Wrong Username or Password"});
@@ -68,18 +75,19 @@ var Login = (req, res) => {
 var Logout = (req, res) => {
 	let s = sockets.get(req.session.sessionId);
 	let usr = usersmap.get(req.session.sessionId);
-	
-	request.session.destroy(() => {
-		if(s) s.close();
-		
-		sockets.delete(req.session.sessionId);
-		let t = sessions.get(usr);
-		if(t) {
-			let ind = t.indexOf(req.session.sessinoId);
-			if(ind >= 0) t.splice(ind, 1);
-		}
-		usermap.delete(req.session.sessionId);
 
+	if(s) s.close();
+	
+	sockets.delete(req.session.sessionId);
+	let t = sessions.get(usr);
+	if(t) {
+		let ind = t.indexOf(req.session.sessinoId);
+		if(ind >= 0) t.splice(ind, 1);
+	}
+	usersmap.delete(req.session.sessionId);
+
+	
+	req.session.destroy(() => {
 		res.status(200).send({ok: true, message: "Logout Successful"});
 	});
 }
@@ -122,6 +130,7 @@ var start = () => {
 	app.post('/session/login', Login);
 	app.delete('/session/logout', Logout);
 	app.put('/session/signup', Signup);
+	app.get("/session/check", checkLogin);
 
 	const server = https.createServer(app);
 
