@@ -33,7 +33,9 @@
 }
 
 .login-h4 {
-	color: beige;
+    color: beige;
+    position: relative;
+    top:9px;
 }
 .login-warning{
     color: beige;
@@ -42,12 +44,13 @@
 }
 .signup-button {
     background-color: #F85252;
-    /* position: fixed;
-    right: 41.5%; */
     height: 45px;
     width: 45px;
+    position: relative;
+    top:3px;
     border-radius: 50%;
-    font-size: larger;
+    font-size: xx-large;
+    font-weight: bold;
     color:rgb(252, 252, 252);
 }
 .signup-button:hover {
@@ -55,7 +58,8 @@
     /* position: fixed;
     right: 41.5%; */
     border-radius: 50%;
-    font-size: larger;
+    font-size: xx-large;
+    font-weight: bold;
     color:rgb(252, 252, 252);
 }
 .signup-button:active {
@@ -63,6 +67,7 @@
     /* position: fixed;
     right: 41.5%; */
     border-radius: 50%;
-    font-size: larger;
+    font-size: xx-large;
+    font-weight: bold;
     color:rgb(252, 252, 252);
 }
