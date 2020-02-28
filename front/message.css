@@ -1,0 +1,19 @@
+.message {
+	background: lavender;
+	border-radius: 5%;
+	margin: 3%;
+	max-width: 75%;
+}
+
+.sent {
+	background: springgreen;
+}
+
+.recieved {
+	background: WhiteSmoke;
+
+}
+
+.pending {
+
+}
