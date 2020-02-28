@@ -47,7 +47,8 @@
     height: 45px;
     width: 45px;
     position: relative;
-    top:3px;
+		padding: 0px;
+/*    top:3px;*/
     border-radius: 50%;
     font-size: xx-large;
     font-weight: bold;
