@@ -1,17 +1,27 @@
+.column  {
+	width: 65%;
+
+
+}
 .message {
 	background: lavender;
-	border-radius: 5%;
+	position: relative;
+	border-radius: 20px;
+	/* border: 2px ; */
 	margin: 3%;
-	max-width: 75%;
+	max-width: 75%; 
+	min-height: 40px;
 }
 
 .sent {
-	background: springgreen;
+	background: #292F4C;
+	color: beige;
+	left: 23%;
 }
 
 .recieved {
-	background: WhiteSmoke;
-
+	background: #eee;
+	
 }
 
 .pending {
