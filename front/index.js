@@ -4,14 +4,24 @@ var login_info = init_login_info;
 let cnt = 0;
 
 var show_just_waiting = () => {
-	$("#waiting-modal").hide();
-	$("#login-modal").hide();
-	$("#signup-modal").hide();
+	$("#waiting-modal").show();
+	$("#login-root").hide();
+	$("#signup-root").hide();
 }
+
 var toggle_login = () => {
-	$("#signup-root").toggle('slow')
-	$("#login-root").toggle('slow')
-//	$("modal-content").animate({ trans: 180 });
+	$("#dialog-content").animate({ trans: 90 }, {
+		step: (now, fx) => {
+			$("#dialog-content").css('transform', "rotateY(" + now + "deg)")
+		}, duration: 'fast'
+	}, 'linear');
+	$("#signup-root").toggle()
+	$("#login-root").toggle()
+	$("#dialog-content").animate({ trans: 0 }, {
+		step: (now, fx) => {
+			$("#dialog-content").css('transform', "rotateY(" + now + "deg)")
+		}, duration: 'fast'
+	}, 'linear');
 }
 
 var init = () => {
@@ -70,16 +80,14 @@ var init = () => {
 			$("#waiting-modal").show();
 
 			$.ajax({
-				method: 'POST',
+				method: 'PUT',
 				url: '/session/signup',
 				data: $("#signup-form").serialize(),
 				success: (jdt) => {
 					console.log(jdt)
 					$("#waiting-modal").hide();
 					if(jdt.ok == true) {
-						login_info.logedin = true;
-						cnt = 0;
-						start();
+						toggle_login()
 					} else {
 						console.log(jdt.message);
 						$("#signup-message").text(jdt.message);
@@ -152,8 +160,13 @@ var start = () => {
 				login_info.logedin = false
 				start();
 			} else {
-				alert("Please retry")
-				init();
+				alert("Connection lost, please Login again")
+				$("#modal-message-content").html("");
+				$("#waiting-modal").hide();
+				$("#login-root").show();
+				$("#signup-root").show();
+				$("#signup-root").hide();
+							
 			}
 		}, 1000);
 	};
