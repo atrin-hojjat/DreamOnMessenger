@@ -49,17 +49,31 @@
                     <input class="w-100" type="text" placeholder="Enter for search…">
                     <i class="fas fa-search"></i>
                 </div>
+								<div class="mb-5 input-group">
+									<input type="text" class="form-control" placeholder="Chat Name" id="new_chat">
+									<div class=input-group-append">
+										<button class="btn" id="add_chat"> Create Chat </button>
+									</div>
+								</div>
 								
-                <div id="Messages">
+                <div id="chats">
                 </div>
             </div>
 						<div class="col- column"> 
-							<div class="message recieved"> recieved </div>
-							<div class="message sent"> sent </div>
-              <div class="message pending"> pending</div>
+							<div class="input-group">
+								<input type="text" class="form-control" id="new_user" placeholder="Username">
+								<div class="input-group-append"> <button class="btn" id="invite"> Add User </button>
+								</div>
+							</div>
+							<div id="messages">
+								<div class="message recieved"> recieved </div>
+								<div class="message sent"> sent </div>
+								<div class="message pending"> pending</div>
+							</div>
               <div class="input-group">
-                <textarea class="form-control send-text"></textarea>
-               <div class="input-group-append"><button class="btn send-button fab fa-telegram-plane"></button></div> 
+                <textarea class="form-control send-text" id="new_message_text"></textarea>
+               <div class="input-group-append"><button class="btn send-button fab fa-telegram-plane"
+									 id="send_message"></button></div> 
               </div>
 						</div>
         </div>
