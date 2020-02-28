@@ -38,15 +38,9 @@
 	border-radius: 50px;
 	font-size: xx-large;
 }
-<<<<<<< HEAD
 .send-button:hover{
 	background-color:rgb(182, 35, 35);
 	color: beige;
 	border-radius: 50px;
 	font-size: xx-large;
 }
-=======
-#messages {
-	height: 90%;
-}
->>>>>>> 1abb489d8f2199d1456e8e0c770c31c99b474144

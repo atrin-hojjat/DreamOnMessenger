@@ -138,8 +138,13 @@ var start = () => {
 	let socketid = { address: 'localhost', port: 8080};
 	sock = new WebSocket(`ws://${window.location.host}/`);
 
+	var CHATS = [];
+	var chats = {}
+	var last_upd = {}
 	var last_message = {};
 	var not_seen_count = {};
+	var messages = {};
+	var chat_on = "";
 
 	var gen_banner = (chat) => {
 		let emp = "", time = "", message = "", count = 0;
@@ -167,15 +172,38 @@ var start = () => {
 											</div>
 											`;
 	};
+	var create_message = (message) => {
+		return `
+					<div class="message ${message.sender == login_info.username ? "sent" : "recieved"}">
+		${message.message}</div>`
+	};
 
-	var re_load_chats = (chats) => {
-		$("#Messages").text("");
-		for(x of chats)
-			$("#Messages").prepend(gen_banner(x));
+	var load_chat = (chat_id) => {
+		alert("loading")
+		chat_on = chat_id
+		$("#messages").text("");
+		for(x of messages[chat_id]) {
+			$("#messages").append(create_message(x));
+		}
+	};
+
+	var re_load_chats = () => {
+		CHATS.sort((a, b) => {
+			if(last_upd[a.chat_id]) return false;
+			if(last_upd[b.chat_id]) return true;
+			return last_upd[a.chat_id] < last_upd[b.chat_id];
+		})
+		$("#chats").text("");
+		for(x of CHATS)
+		{
+			$("#chats").prepend(gen_banner(x));
+			$("#" + x.chat_id).click(() => { load_chat(x.chat_id);})
+		}
 	};
 
 	var add_chat = (chat) => {
-		$("#Messages").add(gen_banner(chat));
+		$("#chats").prepend(gen_banner(chat));
+		$("#" + chat.chat_id).click(() => { load_chat(x.chat_id);})
 	}
 
 	sock.onopen = (data) => {
@@ -212,11 +240,26 @@ var start = () => {
 		let data = dataw.data
 		let jdata = JSON.parse(data);
 		switch(jdata.command) {
+			case "new_message":
+				last_message[chat_id] = jdata.sender + ":" + jdata.message;
+				last_up[jdata.chat_id] = Date.now();
+				if(jdata.chat_id == chat_on) {
+					$("messages").append(create_message(jdata))
+				} else not_seen_count[jdata.chat_id]++;
+				$("#" + chat_id).remove()
+				add_chat(jdata)
+				break;
 			case "add_chat":
+				not_seen_count[jdata.chat_id]++;
+				last_up[jdata.chat_id] = Date.now();
+				chats[jdata.chat_id] = jdata;
 				add_chat(jdata);
 				break;
 			case "get_chats":
-				re_load_chats(jdata.chats);
+				for(x of jdata.chats)
+					chats[x.chat_id] = x
+				CHATS = jdata.chats
+				re_load_chats();
 				break;
 		}
 	};
@@ -229,6 +272,18 @@ var start = () => {
 		$("#dialog-box").fadeIn();
 		sock.close();
 	};
+	$("#send_message").click(() => {
+		sock.send(JSON.stringify({command: "new_message", chat_id: chat_on, message: $("#new_message_text").val()}))
+	});
+
+	$("#add_chat").click(() => {
+		sock.send(JSON.stringify({command: "add_chat", chat_name: $("#new_chat").val()}))
+	});
+
+	$("#invite").click(() => {
+		sock.send(JSON.stringify({command: "add_user_to_chat", person: $("#new_user").val(), chat_id: chat_on}))
+	});
+
 }
 
 
