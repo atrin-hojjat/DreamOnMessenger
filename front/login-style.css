@@ -8,7 +8,7 @@
     border-radius: 50px;
 }
 .login-bott:hover {
-    background-color: rgb(221, 117, 117);
+    background-color: rgb(182, 35, 35);
     color: beige;
 }
 .login-bott:active {
@@ -44,15 +44,17 @@
     background-color: #F85252;
     /* position: fixed;
     right: 41.5%; */
-    border-radius: 40px;
+    height: 300px;
+    width: 300px;
+    border-radius: 100%;
     font-size: larger;
     color:rgb(252, 252, 252);
 }
 .signup-button:hover {
-    background-color: rgb(221, 117, 117);
+    background-color: rgb(182, 35, 35);
     /* position: fixed;
     right: 41.5%; */
-    border-radius: 70px;
+    border-radius: 100%;
     font-size: larger;
     color:rgb(252, 252, 252);
 }
@@ -60,7 +62,7 @@
     background-color: rgb(248, 74, 74);
     /* position: fixed;
     right: 41.5%; */
-    border-radius: 70px;
+    border-radius: 100%;
     font-size: larger;
     color:rgb(252, 252, 252);
 }
