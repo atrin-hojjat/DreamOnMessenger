@@ -189,7 +189,7 @@ var start = () => {
 //			"Lost Connection with the server. <br> Reconnecting...</p>"); 
 		show_just_waiting();
 		$("#dialog-box").fadeIn();
-		if(loged) setTimeout(() => {
+		if(login_info.loged) setTimeout(() => {
 			if(cnt < 5) {
 				cnt++;
 				console.log(cnt)
