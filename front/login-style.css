@@ -47,8 +47,9 @@
     height: 45px;
     width: 45px;
     position: relative;
-		padding: 0px;
-/*    top:3px;*/
+    padding-top: 0px;
+    padding-left: 10px;
+    top:3px;
     border-radius: 50%;
     font-size: xx-large;
     font-weight: bold;
@@ -56,8 +57,6 @@
 }
 .signup-button:hover {
     background-color: rgb(182, 35, 35);
-    /* position: fixed;
-    right: 41.5%; */
     border-radius: 50%;
     font-size: xx-large;
     font-weight: bold;
@@ -65,8 +64,6 @@
 }
 .signup-button:active {
     background-color: rgb(248, 74, 74);
-    /* position: fixed;
-    right: 41.5%; */
     border-radius: 50%;
     font-size: xx-large;
     font-weight: bold;
