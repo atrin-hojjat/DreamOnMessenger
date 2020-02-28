@@ -85,8 +85,12 @@ var Logout = (req, res) => {
 }
 
 var Signup = (req, res) => {
-	if(req.body.username && req.body.password)
-		return users.signup(req.body.username, req.body.password).then(r => {
+	let usr = req.body["signup-username"];
+	let psd = req.body["signup-password"];
+	console.log(usr);
+	console.log(psd);
+	if(usr && psd)
+		return users.signup(usr, psd).then(r => {
 			return res.status(200).send(r);
 		}).catch(e => {
 			console.log(e.stack);
