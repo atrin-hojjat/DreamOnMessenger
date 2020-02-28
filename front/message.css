@@ -38,3 +38,9 @@
 	border-radius: 50px;
 	font-size: xx-large;
 }
+.send-button:hover{
+	background-color:rgb(182, 35, 35);
+	color: beige;
+	border-radius: 50px;
+	font-size: xx-large;
+}
