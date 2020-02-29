@@ -255,6 +255,7 @@ var start = () => {
 //			html("<p class=\"justify-content-center lab modal-message\">" +
 //			"Lost Connection with the server. <br> Reconnecting...</p>"); 
 		show_just_waiting();
+		clearInterval(refresh_time)
 		$("#dialog-box").fadeIn();
 		if(login_info.loged) setTimeout(() => {
 			if(cnt < 5) {
@@ -272,7 +273,7 @@ var start = () => {
 			}
 		}, 1000);
 	};
-	setTimeout(() => {
+	var refresh_time = setInterval(() => {
 		re_load_messages();
 	}, 60000);
 
