@@ -6,20 +6,28 @@
 	"license": "GNU GPL V3",
 	"dependencies": {
 		"body-parser": "^1.19.0",
+		"bootstrap": "^4.4.1",
 		"cors": "^2.8.5",
 		"express": "^4.17.1",
 		"express-session": "^1.17.0",
+		"jquery": "^3.4.1",
 		"pg": "^7.12.1",
+		"popper.js": "^1.16.1",
 		"sjcl": "^1.0.4",
 		"uuid": "^3.4.0",
+		"webpack": "^4.41.6",
 		"ws": "^7.2.1"
 	},
 	"devDependencies": {
-		"jsonwebtoken": "latest"
+		"jsonwebtoken": "latest",
+		"webpack-cli": "^3.3.11",
+		"webpack-merge": "^4.2.2"
 	},
 	"scripts": {
 		"start": "node main.js",
 		"init-database": "",
-		"test": "node tests/main.test.js"
+		"test": "node tests/main.test.js",
+		"build": "webpack -p && npm start",
+		"watch": "webpack --watch"
 	}
 }

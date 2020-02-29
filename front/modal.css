@@ -7,7 +7,7 @@
 	top: 0;
 	display: block; 
 	overflow: auto;
-	background-color: rgb(0, 0, 0, 0.4);
+	background-color: #292F4C;
 }
 
 .modal-content {
@@ -15,6 +15,9 @@
 	height: auto;
 	margin: 15% auto;
 	background-color: #292F4C;
+	border-radius: 25px;
+	padding: 15px;
+	border: 0;
 }
 #waiting-modal {
 	width: auto;
