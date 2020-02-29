@@ -21,7 +21,7 @@
 }
 
 .recieved {
-	background: #eee;
+	background: rgb(163, 162, 162);
 }
 
 .pending {
@@ -68,5 +68,4 @@
 .chat-name{
 	font-size: xx-large;
 	padding-left: 3%;
-
 }
