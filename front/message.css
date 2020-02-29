@@ -3,7 +3,7 @@
 	width: 65%;
 }
 .bg-test{
-	background-color: rgb(145, 145, 145);;
+	background-color: #53586f;
 }
 .message {
 	position: relative;
@@ -13,10 +13,16 @@
 	min-height: 40px;
 	padding-left: 10px;
 	padding-top: 6px;
+	
+	border: 2px solid transparent;
+	
 }
-
+.message:hover{
+	border-color: #F85252;
+	background-color: transparent;
+}
 .sent {
-	background: rgb(44, 61, 148);
+	background: rgb(58, 74, 151);
 	color: #fff;
 	 left: 23%; 
 }
@@ -69,7 +75,8 @@
 }
 
 .chat-header {
-	background-color: #F85252;
+	background-color: 	#20253b;
+	border-bottom: 5px solid #F85252;
 }
 
 #MesssageBoxSection {

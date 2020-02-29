@@ -85,7 +85,7 @@
 }
 
 .card .title h2 {
-    color: #292F4C;
+    color: #ffffff;
     font-size: 18px;
     font-weight: 600;
 }
@@ -111,7 +111,7 @@
 
 .card h3 {
     overflow: hidden;
-    color: #292F4C;
+    color: #ffffff;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -123,14 +123,16 @@
 
 .chat-titl{
 	color: white;
-    background: rgb(145, 145, 145);
+    background: #53586f;
     transition: all .3s;
     border-radius: 0;
-    border: 1px solid #eee;
+    border: 1px solid transparent;
     box-shadow: none;
 }
+
 .chat-titl:hover{
-	background-color:#292F4C;
+    background-color:#292F4C;
+    border-top: 3px solid #F85252;
 }
 .chat-titl:hover h3, .chat-titl:hover h2{
 	color:#ffff;
