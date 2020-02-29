@@ -36,10 +36,11 @@ function write(sock, message) {
 
 var send = (sender , message ) => {
 	try {
-		for(sid of sessions.get(sender)) {
-			const sock = sockets.get(sid);
-			if(sock) write(sock, message);
-		}
+		if(sessions.get(sender))
+			for(sid of sessions.get(sender)) {
+				const sock = sockets.get(sid);
+				if(sock) write(sock, message);
+			}
 	} catch (err) {
 		console.log(err.stack);
 	}
@@ -64,6 +65,8 @@ var Login = (req, res) => {
 			req.session.sessionId = id;
 			req.session.username = usr;
 			usersmap.set(id, usr);
+			if(sessions.get(usr)) sessions.get(usr).push(id)
+			else sessions.set(usr, [id])
 			return res.status(200).send({ok: true, message: "Login Successful"});
 		} else return res.status(200).send({ok: false, message: "Wrong Username or Password"});
 	}).catch(e => {
@@ -159,9 +162,7 @@ socketserver.on('error' , (err) =>{
 });
 socketserver.on('connection' , (sock, req) => {
 	let sessionId = req.session.sessionId;
-	if(!sockets.get(sessionId)) {
-		sockets.set(sessionId, [sock])
-	} else sockets.get(sessionId);
+	sockets.set(sessionId, sock);
 	let user = usersmap.get(sessionId);
 
 	write(sock, {ok: true, message: "Connection Established"});
@@ -177,6 +178,7 @@ socketserver.on('connection' , (sock, req) => {
 			if( jdata.chat_id !== null && jdata.chat_id !== undefined){
 				message_handler.get_usernames(user, jdata)
 				.then(res => {
+					jdata.sender = user;
 					for(let receiver of res){
 						send(receiver.username, jdata) ;
 					}

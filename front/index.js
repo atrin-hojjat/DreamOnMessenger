@@ -179,31 +179,32 @@ var start = () => {
 	};
 
 	var load_chat = (chat_id) => {
-		alert("loading")
+		alert(chat_id)
 		chat_on = chat_id
 		$("#messages").text("");
-		for(x of messages[chat_id]) {
+		if(messages[chat_id]) for(x of messages[chat_id]) {
 			$("#messages").append(create_message(x));
 		}
 	};
 
 	var re_load_chats = () => {
 		CHATS.sort((a, b) => {
-			if(last_upd[a.chat_id]) return false;
-			if(last_upd[b.chat_id]) return true;
-			return last_upd[a.chat_id] < last_upd[b.chat_id];
+			if(last_upd[a.id]) return false;
+			if(last_upd[b.id]) return true;
+			return last_upd[a.id] < last_upd[b.id];
 		})
 		$("#chats").text("");
 		for(x of CHATS)
 		{
 			$("#chats").prepend(gen_banner(x));
-			$("#" + x.chat_id).click(() => { load_chat(x.chat_id);})
+			let test = x.id;	
+			$(`#${x.id}`).click(() => { load_chat(test);})
 		}
 	};
 
 	var add_chat = (chat) => {
 		$("#chats").prepend(gen_banner(chat));
-		$("#" + chat.chat_id).click(() => { load_chat(x.chat_id);})
+		$(`#${chat.id}`).click(() => { load_chat(chat.id);})
 	}
 
 	sock.onopen = (data) => {
@@ -239,25 +240,27 @@ var start = () => {
 	sock.onmessage = (dataw) => {
 		let data = dataw.data
 		let jdata = JSON.parse(data);
+		console.log(jdata)
 		switch(jdata.command) {
 			case "new_message":
-				last_message[chat_id] = jdata.sender + ":" + jdata.message;
-				last_up[jdata.chat_id] = Date.now();
+				last_message[jdata.chat_id] = {message: jdata.sender + ":" + jdata.message, time:Date.now()};
+				last_upd[jdata.chat_id] = Date.now();
 				if(jdata.chat_id == chat_on) {
 					$("messages").append(create_message(jdata))
 				} else not_seen_count[jdata.chat_id]++;
-				$("#" + chat_id).remove()
-				add_chat(jdata)
+				$(`#${jdata.chat_id}`).remove()
+				add_chat(chats[jdata.chat_id])
 				break;
 			case "add_chat":
-				not_seen_count[jdata.chat_id]++;
-				last_up[jdata.chat_id] = Date.now();
-				chats[jdata.chat_id] = jdata;
+				jdata.id = jdata.chat_id
+				not_seen_count[jdata.id]++;
+				last_upd[jdata.id] = Date.now();
+				chats[jdata.id] = jdata;
 				add_chat(jdata);
 				break;
 			case "get_chats":
 				for(x of jdata.chats)
-					chats[x.chat_id] = x
+					chats[x.id] = x
 				CHATS = jdata.chats
 				re_load_chats();
 				break;
