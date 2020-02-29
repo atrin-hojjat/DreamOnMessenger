@@ -181,6 +181,7 @@ var start = () => {
 	var load_chat = (chat_id) => {
 		$("#chat-name").text(chats[chat_id].name);
 		not_seen_count[chat_id] = 0;
+		re_load_chats();
 		chat_on = chat_id
 		$("#messages").text("");
 		if(messages[chat_id]) for(x of messages[chat_id]) {
@@ -190,9 +191,7 @@ var start = () => {
 
 	var re_load_chats = () => {
 		CHATS.sort((a, b) => {
-			if(last_upd[a.id]) return false;
-			if(last_upd[b.id]) return true;
-			return last_upd[a.id] < last_upd[b.id];
+			return last_upd[a.id] > last_upd[b.id];
 		})
 		$("#chats").text("");
 		for(x of CHATS)
