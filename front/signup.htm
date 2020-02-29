@@ -1,34 +1,21 @@
 <div class="root login-root" id="signup-root">
   <div class="container">
-         <div class="row  justify-content-md-center">
-                 <form class="login-darkblue" id="signup-form"> 
-                     <div class="form-group d-flex justify-content-center"">
-                       <h4 class="lab login-h4">Sign Up</h4>
-                          <button type="button" class="btn signup-button" id="signup-toggle-button">+</button>
-                     </div> 
-                         <div class="form-group input-group mb-3">
-                                 <input type="text" class="form-control in-form-control"
-																							id="signup-username" name="signup-username"
-																									placeholder="Username" aria-label="Username"
-																															 ara-describedby="basic-addon1">
-                               </div>
-                         <div class="form-group">
-                           <input type="password" class="form-control in-form-control"
-																				id="singup-password" name="signup-password"
-																						placeholder="Password" id="exampleInputPassword1">
-                         </div>
-                         <div class="form-group">
-                          <input type="password" class="form-control in-form-control"
-																			 id="signup-password" name="signup-repeat-password"
-																					 placeholder="Confirm Password" id="exampleInputPassword1">
-                        </div>
-                         <div class="login-warning" id="signup-message"></div>
-                         <div class="form-group input-group mb-3">
-                         <button type="submit" class="btn form-control form-control-sm login-bott "
-																			 id="signup-button">Register in DoM</button>
-                               </div>
-                       </form>
-           
-         </div>
-       </div>
-       </div>
+    <form class="row justify-content-md-center text-center" id="signup-form">
+      <h4 class="w-100 lab login-h4">Sign Up</h4>
+
+      <div class="form-group input-group mb-3 col-md-6 mx-auto">
+        <div class="login-warning" id="signup-message"></div>
+
+        <input type="text" class="rounded-pill w-100 p-2 border-0 mt-3" id="signup-username" name="signup-username"
+        placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        <input type="password" class="rounded-pill w-100 p-2 border-0 mt-3" id="singup-password" name="signup-password"
+          placeholder="Password" id="exampleInputPassword1">
+        <input type="password" class="rounded-pill w-100 p-2 border-0 mt-3" id="signup-password" name="signup-repeat-password"
+          placeholder="Confirm Password" id="exampleInputPassword1">
+        <button type="submit" class="btn w-100 mt-3 login-bott" id="signup-button">Register in
+          DoM</button>
+        <div class="btn w-100 mt-3 reg-bott" id="signup-toggle-button">Already have account?</div>
+      </div>
+    </form>
+  </div>
+</div>

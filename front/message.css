@@ -1,10 +1,11 @@
 .column  {
+	background-color:#292F4C;
 	width: 65%;
-
-
+}
+.bg-test{
+	background-color: rgb(145, 145, 145);;
 }
 .message {
-	background: lavender;
 	position: relative;
 	border-radius: 20px;
 	margin: 2%;
@@ -15,8 +16,8 @@
 }
 
 .sent {
-	background: #292F4C;
-	color: beige;
+	background: rgb(44, 61, 148);
+	color: #fff;
 	 left: 23%; 
 }
 
@@ -25,40 +26,35 @@
 	color: rgb(255, 255, 255);
 }
 
-.pending {
-
-}
 .send-text{
-	width: 100%;
 	background-color: #eee;
 	left: 5px;
 }
 .send-button{
 	background-color:#F85252;
-	color: beige;
+	color: #fff;
 	border-radius: 50px;
 	font-size: xx-large;
+	border: 1.5px solid transparent;
 }
 .send-button:hover{
-	background-color:rgb(182, 35, 35);
-	color: beige;
-	border-radius: 50px;
+	background-color: transparent;
+    border-color: #F85252;
+    color: #F85252;
 	font-size: xx-large;
 }
 .button-cm{
 	background-color: #292F4C;
-	color:beige ;
-	border-radius: 50px;
+	color:#fff ;
+	border-radius: 0 50px 50px 0;
 }
 .button-cm:hover{
 	background-color: rgb(8, 17, 88);
-	color:beige ;
-	border-radius: 50px;
+	color:#fff ;
 }
 .input-cn{
 	border-color: black;
 	border-width:20px;
-
 }
 .input-ad{
 	border-color: rgb(122, 120, 120);
@@ -68,14 +64,16 @@
 }
 .chat-name{
 	font-size: xx-large;
-	padding-left: 3%;
+	color: #fff;
+	font-weight: 800;
 }
-.chat-titl{
-	border-radius: 25px;
-	background-color:#292F4C ;
-	color: white;
-}
-.chat-titl:hover{
-	background-color: rgb(122, 120, 120);
 
+.chat-header {
+	background-color: #F85252;
+}
+
+#MesssageBoxSection {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
 }

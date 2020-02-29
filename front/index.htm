@@ -44,34 +44,36 @@
                     <li><i class="far fa-ellipsis-h"></i></li>
                 </ul>
             </div>
-            <div class="col-3 bg-dr-second pt-3 px-4 pb-3 px-0 vh-100" id="MessageList">
-                <div id="SearchBox" class="mb-5">
+            <div class="col-3 bg-dr-second pt-3 pb-3 px-0 vh-100 bg-test" id="MessageList">
+                <div id="SearchBox" class="mb-5 px-2">
                     <input class="w-100" type="text" placeholder="Enter for search…">
                     <i class="fas fa-search"></i>
                 </div>
-								<div class="mb-5 input-group">
+								<div class="mb-5 px-2 input-group">
 									<input type="text" class="form-control input-cn" placeholder="Chat Name" id="new_chat">
 									<div class=input-group-append">
-										<button class="btn button-cm" id="add_chat"> Create Chat </button>
+										<button class="btn button-cm" id="add_chat">Create Chat</button>
 									</div>
 								</div>
 								
                 <div id="chats">
                 </div>
             </div>
-						<div class="col- column"> 
-              <div class="chat-name" id="chat-name">Chat name</div>
-							<div class="input-group">
-								<input type="text" class="form-control  input-ad" id="new_user" placeholder="Username">
-								<div class="input-group-append"> <button class="btn button-cm" id="invite"> Add User </button>
-								</div>
-							</div>
+						<div class="col column p-0"> 
+              <div class="chat-header container d-flex align-items-center px-2 pt-3 pb-3">
+                <div class="chat-name px-1 col-md-8" id="chat-name">Chat name</div>
+                <div class="input-group col-md-4">
+                  <input type="text" class="form-control  input-ad" id="new_user" placeholder="Username">
+                  <div class="input-group-append"> <button class="btn button-cm" id="invite"><i class="fas fa-plus-circle"></i></button>
+                  </div>
+                </div>
+              </div>
 							<div id="messages">
 								<div class="message recieved"> recieved </div>
 								<div class="message sent"> sent </div>
 								<div class="message pending"> pending</div>
 							</div>
-              <div class="input-group">
+              <div class="input-group pl-3" id="MesssageBoxSection">
                 <textarea class="form-control send-text" id="new_message_text"></textarea>
                <div class="input-group-append"><button class="btn send-button fab fa-telegram-plane"
 									 id="send_message"></button></div> 
@@ -85,5 +87,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 		<script src="reconnecting-websocket.min.js"></script>
     <script src="index.js"></script>
+    <!-- <script src="bundle.js"></script> -->
 </body>
 </html>

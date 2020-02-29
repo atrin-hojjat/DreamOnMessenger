@@ -1,15 +1,24 @@
 #signup-root {
 	display: none;
 }
+.reg-bott{
+    color: #F85252;
+    transition: all .3;
+}
+.reg-bott:hover {
+    color: #fff;
+}
 .login-bott{
     background-color:#F85252;
     color: beige;
-    position: fixed;
     border-radius: 50px;
+    transition: all .3;
+    border: 1.5px solid transparent;
 }
 .login-bott:hover {
-    background-color: rgb(182, 35, 35);
-    color: beige;
+    background-color: transparent;
+    border-color: #F85252;
+    color: #F85252;
 }
 .login-bott:active {
     background-color: rgb(248, 74, 74);
@@ -37,11 +46,25 @@
     position: relative;
     top:9px;
 }
-.login-warning{
-    color: beige;
-    font-size: large;
-    padding: 3%;
+
+#invite {
+    background: #fff;
+    color: #292F4C;
 }
+
+.login-warning{
+    border: 1.5px solid transparent;
+    color: #fff;
+    font-size: large;
+    width: 100%;
+    border-radius: 50px;
+    margin-top: 1rem;
+    padding: 10px;
+}
+.login-warning.active {
+    border-color: #F85252;
+}
+
 .signup-button {
     background-color: #F85252;
     height: 45px;

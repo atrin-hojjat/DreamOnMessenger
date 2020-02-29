@@ -1,24 +1,18 @@
-  <div class="root login-root" id="login-root">
-     <div class="container">
-            <div class="row  justify-content-md-center">
-                    <form class="login-darkblue" id="login-form"> 
-                        <div class="form-group d-flex justify-content-center"">
-                          <h4 class="lab login-h4">Login</h4>
-                          <button type="button" class="btn signup-button"
-														id="login-toggle-button">+</button>
-                        </div> 
-                            <div class="form-group input-group mb-3">
-                                    <input type="text" class="form-control in-form-control" id="login-username" name="login-username" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                                  </div>
-                            <div class="form-group">
-                              <input type="password" class="form-control in-form-control" id="login-password" name="login-password" placeholder="Password" id="exampleInputPassword1">
-                            </div>
-                            <div class="login-warning" id="login-message"></div>
-                            <div class="form-group input-group mb-3">
-                            <button type="submit" class="btn form-control form-control-sm login-bott " id="login-button">Go in DoM</button>
-														</div>
-                          </form>
-              
-            </div>
-          </div>
-          </div>
+<div class="root login-root" id="login-root">
+   <div class="container">
+      <form class="row justify-content-md-center text-center" id="login-form">
+         <h4 class="lab login-h4 w-100">Login</h4>
+         <div class="form-group input-group mb-3 col-md-6 mx-auto">
+            <div class="login-warning" id="login-message"></div>
+
+            <input type="text" class="rounded-pill w-100 p-2 border-0 mt-3" id="login-username" name="login-username"
+               placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+            <input type="password" class="rounded-pill p-2 border-0 w-100 mt-3" id="login-password" name="login-password"
+               placeholder="Password" id="exampleInputPassword1">
+               <button type="submit" class="btn w-100 mt-3 login-bott" id="login-button">Go in DoM</button>
+               <div class="btn w-100 mt-3 reg-bott" id="login-toggle-button">I don't have account</div>
+         </div>
+      </form>
+   </div>
+</div>
+
