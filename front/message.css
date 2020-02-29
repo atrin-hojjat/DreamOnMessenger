@@ -44,3 +44,29 @@
 	border-radius: 50px;
 	font-size: xx-large;
 }
+.button-cm{
+	background-color: #292F4C;
+	color:beige ;
+	border-radius: 50px;
+}
+.button-cm:hover{
+	background-color: rgb(8, 17, 88);
+	color:beige ;
+	border-radius: 50px;
+}
+.input-cn{
+	border-color: black;
+	border-width:20px;
+
+}
+.input-ad{
+	border-color: rgb(122, 120, 120);
+	border-radius: 20px;
+	border-width:1px;
+	width:20%;
+}
+.chat-name{
+	font-size: xx-large;
+	padding-left: 3%;
+
+}
