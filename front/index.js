@@ -180,6 +180,7 @@ var start = () => {
 	};
 
 	var load_chat = (chat_id) => {
+		$("#chat-name").text(chats[chat_id].name);
 		not_seen_count[chat_id] = 0;
 		chat_on = chat_id
 		$("#messages").text("");
