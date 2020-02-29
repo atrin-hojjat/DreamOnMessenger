@@ -38,6 +38,11 @@ var add_user = async (sender, data, send) => {
 		await pool
 			.query("insert into chat_user(chat_id, username) values ($1, $2)", [data.chat_id, data.person]);
 		let tt = "" + sender + " ADDED " + data.person + " to " + data.chat_id;
+		console.log(await get_usernames(sender, data))
+		send(data.person, {name: 
+			(await pool.query("select name from chats where chat_id=$1", [data.chat_id]))
+			.rows[0].name, sender: sender, 
+			chat_id: data.chat_id, message: "ADDED TO CHAT", command: "add_chat"})
 		for(pp of await get_usernames(sender, data))
 			send(pp.username, {sender: sender, chat_id: data.chat_id, message: tt, command: "add_user_to_chat"});
 		return true;
