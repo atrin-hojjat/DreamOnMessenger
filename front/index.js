@@ -1,8 +1,36 @@
-jQuery(function($){
+//jQuery(function($){
 
 const init_login_info = { logedin: false, username: null, password: null};
 var login_info = init_login_info;
 let cnt = 0;
+
+function time_since(date) {
+
+  var seconds = Math.floor((new Date() - date) / 1000);
+
+  var interval = Math.floor(seconds / 31536000);
+
+  if (interval > 1) {
+    return interval + " years ago";
+  }
+  interval = Math.floor(seconds / 2592000);
+  if (interval > 1) {
+    return interval + " months ago";
+  }
+  interval = Math.floor(seconds / 86400);
+  if (interval > 1) {
+    return interval + " days ago";
+  }
+  interval = Math.floor(seconds / 3600);
+  if (interval > 1) {
+    return interval + " hours ago";
+  }
+  interval = Math.floor(seconds / 60);
+  if (interval > 1) {
+    return interval + " mins ago";
+  }
+	return "A few seconds ago"
+}
 
 var show_just_waiting = () => {
 	$("#waiting-modal").show();
@@ -158,7 +186,7 @@ var start = () => {
 
 	var gen_banner = (chat) => {
 		let emp = "", time = "", message = "", count = 0;
-		if(chat.id in last_message) time = last_message[chat.id].time, message = last_message[chat.id].message;
+		if(chat.id in last_message) time = time_since(last_message[chat.id].time), message = last_message[chat.id].message;
 		if(chat.id in not_seen_count) count = not_seen_count[chat.id]
 		return `		
 											<div class="card p-3 chat-titl mb-0" id="${chat.id}">
@@ -166,11 +194,11 @@ var start = () => {
 															<div class="avatar col-3 pr-0">
 																	<img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
 															</div>
-															<div class="col-6 title align-self-center">
+															<div class="col-5 title align-self-center">
 																	<h2>${chat.name}</h2>
 																	<h3>${message}</h3>
 															</div>
-															<div class="col-3 time">
+															<div class="col-4 time">
 																	<span>${time}</span>
 																	<div class="number">${count}</div>
 															</div>
@@ -198,6 +226,9 @@ var start = () => {
 
 	var re_load_chats = () => {
 		CHATS.sort((a, b) => {
+			if(!last_upd[a.id] && !last_upd[b.id]) return 0;
+			if(!last_upd[a.id]) return -1;
+			if(!last_upd[b.id]) return 1;
 			return last_upd[a.id] - last_upd[b.id];
 		})
 		$("#chats").text("");
@@ -241,6 +272,9 @@ var start = () => {
 			}
 		}, 1000);
 	};
+	setTimeout(() => {
+		re_load_messages();
+	}, 60000);
 
 
 
@@ -310,4 +344,4 @@ var start = () => {
 
 $(document).ready(init);
 
-});
+//});
