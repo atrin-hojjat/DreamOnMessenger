@@ -180,6 +180,7 @@ var start = () => {
 	};
 
 	var load_chat = (chat_id) => {
+		not_seen_count[chat_id] = 0;
 		chat_on = chat_id
 		$("#messages").text("");
 		if(messages[chat_id]) for(x of messages[chat_id]) {
@@ -247,7 +248,7 @@ var start = () => {
 				last_upd[jdata.chat_id] = Date.now();
 				if(jdata.chat_id == chat_on) {
 					$("#messages").append(create_message(jdata))
-				} else not_seen_count[jdata.chat_id]++;
+				} else not_seen_count[jdata.chat_id] += 1;
 				messages[jdata.chat_id].push(jdata);
 				
 				$(`#${jdata.chat_id}`).remove()
@@ -258,11 +259,17 @@ var start = () => {
 				not_seen_count[jdata.id]++;
 				last_upd[jdata.id] = Date.now();
 				chats[jdata.id] = jdata;
+				messages[jdata.id] = []
+				not_seen_count[jdata.chat_id] = 0;
 				add_chat(jdata);
 				break;
 			case "get_chats":
 				for(x of jdata.chats)
+				{
+					not_seen_count[x.id] = 0;
+					messages[x.id] = []
 					chats[x.id] = x
+				}
 				CHATS = jdata.chats
 				re_load_chats();
 				break;
