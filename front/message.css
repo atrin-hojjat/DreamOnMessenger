@@ -17,19 +17,15 @@
 	border: 2px solid transparent;
 	
 }
-.message:hover{
-	border-color: #F85252;
-	background-color: transparent;
-}
 .sent {
-	background: rgb(58, 74, 151);
-	color: #fff;
-	 left: 23%; 
+	background: #fafafa;
+	color: #000;
+	left: 23%; 
 }
 
 .recieved {
-	background: rgb(145, 145, 145);
-	color: rgb(255, 255, 255);
+	background: #ccc;
+	color: #000;
 }
 
 .send-text{
