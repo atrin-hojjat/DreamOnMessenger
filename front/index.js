@@ -173,13 +173,13 @@ var start = () => {
 											`;
 	};
 	var create_message = (message) => {
+		console.log(message)
 		return `
 					<div class="message ${message.sender == login_info.username ? "sent" : "recieved"}">
 		${message.message}</div>`
 	};
 
 	var load_chat = (chat_id) => {
-		alert(chat_id)
 		chat_on = chat_id
 		$("#messages").text("");
 		if(messages[chat_id]) for(x of messages[chat_id]) {
@@ -246,8 +246,10 @@ var start = () => {
 				last_message[jdata.chat_id] = {message: jdata.sender + ":" + jdata.message, time:Date.now()};
 				last_upd[jdata.chat_id] = Date.now();
 				if(jdata.chat_id == chat_on) {
-					$("messages").append(create_message(jdata))
+					$("#messages").append(create_message(jdata))
 				} else not_seen_count[jdata.chat_id]++;
+				messages[jdata.chat_id].push(jdata);
+				
 				$(`#${jdata.chat_id}`).remove()
 				add_chat(chats[jdata.chat_id])
 				break;
