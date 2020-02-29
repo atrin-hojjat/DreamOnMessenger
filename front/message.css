@@ -21,7 +21,8 @@
 }
 
 .recieved {
-	background: rgb(163, 162, 162);
+	background: rgb(145, 145, 145);
+	color: rgb(255, 255, 255);
 }
 
 .pending {
@@ -68,4 +69,13 @@
 .chat-name{
 	font-size: xx-large;
 	padding-left: 3%;
+}
+.chat-titl{
+	border-radius: 25px;
+	background-color:#292F4C ;
+	color: white;
+}
+.chat-titl:hover{
+	background-color: rgb(122, 120, 120);
+
 }

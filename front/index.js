@@ -151,7 +151,7 @@ var start = () => {
 		if(chat.id in last_message) time = last_message[chat.id].time, message = last_message[chat.id].message;
 		if(chat.id in not_seen_count) count = not_seen_count[chat.id]
 		return `		
-											<div class="card p-3" id="${chat.id}">
+											<div class="card p-3 chat-titl" id="${chat.id}">
 													<div class="row">
 															<div class="avatar col-3 pr-0">
 																	<img src="${emp}" alt="Avatar" class="w-100 rounded-circle">
