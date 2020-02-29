@@ -4,7 +4,6 @@
 
 CREATE DATABASE "DOMessenger"
     WITH 
-    OWNER = atrinhojjat
     ENCODING = 'UTF8'
     LC_COLLATE = 'C'
     LC_CTYPE = 'C'
@@ -22,5 +21,3 @@ create table chat_user (
 		chat_id serial,
 		username varchar(32) not null
 	);
-
-

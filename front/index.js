@@ -1,3 +1,4 @@
+jQuery(function($){
 
 const init_login_info = { logedin: false, username: null, password: null};
 var login_info = init_login_info;
@@ -67,6 +68,7 @@ var init = () => {
 						start();
 					} else {
 						console.log(jdt.message);
+						$("#login-message").addClass("active");
 						$("#login-message").text(jdt.message);
 					}
 				}
@@ -102,6 +104,7 @@ var init = () => {
 						toggle_login()
 					} else {
 						console.log(jdt.message);
+						$("#signup-message").addClass("active");
 						$("#signup-message").text(jdt.message);
 					}
 				}
@@ -151,22 +154,18 @@ var start = () => {
 		if(chat.id in last_message) time = last_message[chat.id].time, message = last_message[chat.id].message;
 		if(chat.id in not_seen_count) count = not_seen_count[chat.id]
 		return `		
-											<div class="card p-3 chat-titl" id="${chat.id}">
+											<div class="card p-3 chat-titl mb-0" id="${chat.id}">
 													<div class="row">
 															<div class="avatar col-3 pr-0">
-																	<img src="${emp}" alt="Avatar" class="w-100 rounded-circle">
+																	<img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
 															</div>
 															<div class="col-6 title align-self-center">
 																	<h2>${chat.name}</h2>
-																	<h3>${emp}</h3>
+																	<h3>${message}</h3>
 															</div>
 															<div class="col-3 time">
 																	<span>${time}</span>
 																	<div class="number">${count}</div>
-															</div>
-															<div class="col-12 pt-3 text">
-																	<p>${message}
-																	</p>
 															</div>
 													</div>
 											</div>
@@ -304,3 +303,5 @@ var start = () => {
 
 
 $(document).ready(init);
+
+});
