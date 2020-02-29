@@ -26,18 +26,6 @@ var toggle_login = () => {
 }
 
 var init = () => {
-		$.ajax({
-			method: 'GET',
-			url: '/session/check',
-			success: (jdt) => {
-				console.log(jdt)
-				if(jdt.loged == true) {
-					login_info.logedin = true;
-					login_info.username = jdt.username;
-					start()
-				}
-			}
-		});
 	$("#login-modal").load("/login.htm", (a, b, c) => {
 		$("#login-username").val(login_info.username);
 		$("#login-password").val(login_info.password);
@@ -74,7 +62,7 @@ var init = () => {
 				}
 			});
 		});
-		$("#waiting-modal").hide();
+//		$("#waiting-modal").hide();
 	});
 	$("#signup-modal").load("/signup.htm", (a, b, c) => {
 		$("#signup-username").val(login_info.username);
@@ -111,6 +99,25 @@ var init = () => {
 			});
 		});
 
+	});
+	$.ajax({
+		method: 'GET',
+		url: '/session/check',
+		success: (jdt) => {
+			console.log(jdt)
+			if(jdt.loged == true) {
+				login_info.logedin = true;
+				login_info.username = jdt.username;
+				start()
+			} else {
+				$("#login-root").show();
+				$("#waiting-modal").hide();
+			}
+		},
+		fail: (err) => {
+			$("#login-root").show();
+			$("#waiting-modal").hide();
+		}
 	});
 	$("#LOGOUT").click(() => {
 		logout();
@@ -191,7 +198,7 @@ var start = () => {
 
 	var re_load_chats = () => {
 		CHATS.sort((a, b) => {
-			return last_upd[a.id] > last_upd[b.id];
+			return last_upd[a.id] - last_upd[b.id];
 		})
 		$("#chats").text("");
 		for(x of CHATS)
