@@ -151,9 +151,8 @@
     line-height: 30px;
     color: #FFF;
     border: 5px solid transparent;
+    box-shadow: 3px 3px grey;
 }
 .New-Chat-btn:hover {
-    background-color: transparent;
-    color: #F85252;
-    border: 5px solid #F85252;
+    
 }
