@@ -1,10 +1,11 @@
 .column  {
+	background-color:#292F4C;
 	width: 65%;
-
-
+}
+.bg-test{
+	background-color: #32395d;
 }
 .message {
-	background: lavender;
 	position: relative;
 	border-radius: 20px;
 	margin: 2%;
@@ -12,17 +13,19 @@
 	min-height: 40px;
 	padding-left: 10px;
 	padding-top: 6px;
+	
+	border: 2px solid transparent;
+	
 }
-
 .sent {
-	background: #292F4C;
-	color: #fff;
-	 left: 23%; 
+	background: #fafafa;
+	color: #000;
+	left: 23%; 
 }
 
 .recieved {
-	background: rgb(145, 145, 145);
-	color: rgb(255, 255, 255);
+	background: #ccc;
+	color: #000;
 }
 
 .send-text{
@@ -34,11 +37,12 @@
 	color: #fff;
 	border-radius: 50px;
 	font-size: xx-large;
+	border: 1.5px solid transparent;
 }
 .send-button:hover{
-	background-color:rgb(182, 35, 35);
-	color: #fff;
-	border-radius: 50px;
+	background-color: transparent;
+    border-color: #F85252;
+    color: #F85252;
 	font-size: xx-large;
 }
 .button-cm{
@@ -67,7 +71,8 @@
 }
 
 .chat-header {
-	background-color: #292F4C;
+	background-color: 	#20253b;
+	border-bottom: 5px solid #F85252;
 }
 
 #MesssageBoxSection {
