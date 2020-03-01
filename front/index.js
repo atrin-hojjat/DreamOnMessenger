@@ -29,7 +29,7 @@ function time_since(date) {
   if (interval > 1) {
     return interval + " mins ago";
   }
-	return "A few seconds ago"
+	return "Just Now"
 }
 
 var show_just_waiting = () => {
