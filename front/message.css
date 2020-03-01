@@ -3,7 +3,7 @@
 	width: 65%;
 }
 .bg-test{
-	background-color: #53586f;
+	background-color: #32395d;
 }
 .message {
 	position: relative;
@@ -17,10 +17,10 @@
 	border: 2px solid transparent;
 	
 }
-.message:hover{
+/* .message:hover{
 	border-color: #F85252;
 	background-color: transparent;
-}
+} */
 .sent {
 	background: rgb(58, 74, 151);
 	color: #fff;

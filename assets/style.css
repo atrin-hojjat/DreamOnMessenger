@@ -123,10 +123,11 @@
 
 .chat-titl{
 	color: white;
-    background: #53586f;
+    background: #32395d;
     transition: all .3s;
     border-radius: 0;
     border: 1px solid transparent;
+    border-top: 3px solid transparent;
     box-shadow: none;
 }
 
