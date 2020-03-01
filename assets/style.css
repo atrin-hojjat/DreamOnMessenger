@@ -136,8 +136,8 @@
 
 .New-Chat {
     position: fixed;
-    left: 10px;
-    bottom: 10px;
+    left: 15px;
+    bottom: 15px;
 
 }
 .New-Chat-btn {
@@ -148,6 +148,7 @@
     height: 60px;
     border-radius: 100px;
     font-size: xx-large;
+    line-height: 30px;
     color: #FFF;
     border: 5px solid transparent;
 }
