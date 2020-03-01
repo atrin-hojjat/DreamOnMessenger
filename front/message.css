@@ -9,23 +9,37 @@
 	position: relative;
 	border-radius: 20px;
 	margin: 2%;
-	max-width: 75%; 
+	/* max-width: 75%;  */
 	min-height: 40px;
 	padding-left: 10px;
 	padding-top: 6px;
-	
 	border: 2px solid transparent;
-	
 }
 .sent {
 	background: #fafafa;
 	color: #000;
+	/* left: 10%;  */
+}
+.sent-div{
 	left: 23%; 
+}
+.div-r{
+	left: 10%;
 }
 
 .recieved {
 	background: #ccc;
 	color: #000;
+}
+
+.message-ussername{
+	font-size: large;
+	font-weight: bold;
+	color: #F85252;
+}
+
+.message-text{
+
 }
 
 .send-text{

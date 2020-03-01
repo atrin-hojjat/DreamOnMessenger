@@ -65,7 +65,7 @@
                 </div>
             </div>
 						<div class="col column p-0"> 
-              <div class="chat-header container d-flex align-items-center px-2 pt-3 pb-3">
+              <div class="chat-header container d-flex align-items-center px-2 pt-3 pb-3 mb-3">
                 <div class="chat-name px-1 col-md-8" id="chat-name">Chat name</div>
                 <div class="input-group col-md-4">
                   <input type="text" class="form-control  input-ad" id="new_user" placeholder="Username">
@@ -74,8 +74,29 @@
                 </div>
               </div>
 							<div id="messages">
-								<div class="message recieved"> recieved </div>
-								<div class="message sent"> sent </div>
+                <!-- <div class="message recieved"> recieved </div> -->
+                  <div class="col-9 row">
+                  <div class="col-1 mt-4">
+                    <img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
+                  </div>
+                  <div class="col-10 message recieved">
+                    <div class="message-ussername">ussername</div>
+                    <div class="message-text">recieved</div>
+                  </div>
+                </div>
+
+                <!-- <div class="message sent"> sent </div> -->
+                <div class="col-9 row sent-div">
+                  <div class="col-10 message sent div-r">
+                    <div class="message-ussername">ussername</div>
+                    <div class="message-text">recieved</div>
+                  </div>
+                  <div class="col-1 mt-4 div-r">
+                    <img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
+                  </div>
+                </div>
+
+
 								<div class="message pending"> pending</div>
 							</div>
               <div class="input-group pl-3" id="MesssageBoxSection">
