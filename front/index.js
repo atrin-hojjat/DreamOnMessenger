@@ -191,16 +191,17 @@ var start = () => {
 		return `		
 											<div class="card p-3 chat-titl mb-0" id="${chat.id}">
 													<div class="row">
-															<div class="avatar col-3 pr-0">
+															<div class="avatar col-2 pr-0">
 																	<img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
 															</div>
-															<div class="col-5 title align-self-center">
+															<div class="col-6 title align-self-center">
 																	<h2>${chat.name}</h2>
-																	<h3>${message}</h3>
+																	<h3>${message}</h3>	
 															</div>
 															<div class="col-4 time">
-																	<span>${time}</span>
+																	<div class="time-chat">${time}</div>
 																	${count==0?"":"<div class=\"number\">"+count+"</div>"}
+																	
 															</div>
 													</div>
 											</div>
