@@ -55,8 +55,7 @@ var checkLogin = (req, res) => {
 var Login = (req, res) => {
 	let usr = req.body["login-username"];
 	let psd = req.body["login-password"];
-	console.log(usr);
-	console.log(psd);
+	console.log(`${usr} Loged in`);
 	return users.loginfunc(usr, psd).then(login_result => {
 		if(login_result.ok == true) {
 
@@ -98,8 +97,7 @@ var Logout = (req, res) => {
 var Signup = (req, res) => {
 	let usr = req.body["signup-username"];
 	let psd = req.body["signup-password"];
-	console.log(usr);
-	console.log(psd);
+	console.log(`${usr} Signed up`);
 	if(usr && psd)
 		return users.signup(usr, psd).then(r => {
 			return res.status(200).send(r);
