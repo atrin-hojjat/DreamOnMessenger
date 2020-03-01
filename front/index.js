@@ -327,17 +327,20 @@ var start = () => {
 		sock.close();
 	};
 	$("#send_message").click(() => {
-		sock.send(JSON.stringify({command: "new_message", chat_id: chat_on, message: $("#new_message_text").val()}))
+		if($("#new_message_text").val() != "")
+			sock.send(JSON.stringify({command: "new_message", chat_id: chat_on, message: $("#new_message_text").val()}))
 		$("#new_message_text").val("")
 	});
 
 	$("#add_chat").click(() => {
-		sock.send(JSON.stringify({command: "add_chat", chat_name: $("#new_chat").val()}))
+		if($("#new_chat").val() != "")
+			sock.send(JSON.stringify({command: "add_chat", chat_name: $("#new_chat").val()}))
 		$("#new_chat").val("")
 	});
 
 	$("#invite").click(() => {
-		sock.send(JSON.stringify({command: "add_user_to_chat", person: $("#new_user").val(), chat_id: chat_on}))
+		if($("#new_user").val() != "")
+			sock.send(JSON.stringify({command: "add_user_to_chat", person: $("#new_user").val(), chat_id: chat_on}))
 		$("#new_user").val("")
 	});
 
