@@ -300,6 +300,7 @@ var start = () => {
 				not_seen_count[jdata.id]++;
 				last_upd[jdata.id] = Date.now();
 				chats[jdata.id] = jdata;
+				CHATS.push(jdata)
 				messages[jdata.id] = []
 				not_seen_count[jdata.chat_id] = 0;
 				add_chat(jdata);
