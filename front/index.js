@@ -200,7 +200,7 @@ var start = () => {
 															</div>
 															<div class="col-4 time">
 																	<span>${time}</span>
-																	<div class="number">${count}</div>
+																	${count==0?"":"<div class=\"number\">"+count+"</div>"}
 															</div>
 													</div>
 											</div>
