@@ -207,10 +207,29 @@ var start = () => {
 											`;
 	};
 	var create_message = (message) => {
-		console.log(message)
-		return `
-					<div class="message ${message.sender == login_info.username ? "sent" : "recieved"}">
-		${message.message}</div>`
+		if(message.sender == login_info.username) {
+			return `
+                <div class="col-9 row sent-div">
+                  <div class="col-10 message sent div-r">
+                    <div class="message-text">${message.message}</div>
+                  </div>
+                  <div class="col-1 mt-4 div-r">
+                    <img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
+                  </div>
+                </div>`
+		} else {
+			return `
+                  <div class="col-9 row">
+                  <div class="col-1 mt-4">
+                    <img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
+                  </div>
+                  <div class="col-10 message recieved">
+                    <div class="message-ussername">${message.sender}</div>
+                    <div class="message-text">${message.message}</div>
+                  </div>
+                </div>`
+
+		}
 	};
 
 	var load_chat = (chat_id) => {
