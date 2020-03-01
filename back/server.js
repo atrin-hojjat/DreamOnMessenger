@@ -168,12 +168,12 @@ socketserver.on('connection' , (sock, req) => {
 
 		let jdata = parse(data);
 		if( jdata.command == 'add_chat' ){
-			if( jdata.chat_name !== null && jdata.chat_name !== undefined){
+			if( jdata.chat_name !== "" && jdata.chat_name !== null && jdata.chat_name !== undefined){
 				message_handler.add_chat(user , jdata , send) ;
 			}
 		}
 		else if (jdata.command == 'new_message'){
-			if( jdata.chat_id !== null && jdata.chat_id !== undefined){
+			if( jdata.chat_id !== "" && jdata.chat_id !== null && jdata.chat_id !== undefined){
 				message_handler.get_usernames(user, jdata)
 				.then(res => {
 					jdata.sender = user;
@@ -186,7 +186,7 @@ socketserver.on('connection' , (sock, req) => {
 			}
 		}
 		else if( jdata.command == 'add_user_to_chat' ){
-			if( jdata.person !== null && jdata.chat_id !== null && jdata.person !== undefined && jdata.chat_id !== undefined){
+			if( jdata.chat_id !== "" && jdata.person !="" && jdata.person !== null && jdata.chat_id !== null && jdata.person !== undefined && jdata.chat_id !== undefined){
 				 message_handler.add_user ( user , jdata , send) ;
 			}
 		}
