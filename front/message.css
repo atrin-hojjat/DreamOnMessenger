@@ -39,6 +39,7 @@
 }
 
 .message-text{
+	white-space: pre;
 
 }
 
