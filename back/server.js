@@ -24,7 +24,7 @@ var sessionParser = session({
 var validateUsername = (username) => {
 	return /^[A-Za-z0-9]+$/g.test(username);
 };
-var validatePassowrd = function(pass) {
+var validatePassword = function(pass) {
   let least8 = pass.length >= 8, cap = false, sml = false
     , num = false, neith = false;
   for(let i = 0; i < pass.length; i++) {
