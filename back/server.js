@@ -21,6 +21,22 @@ var sessionParser = session({
 	resave: false
 });
 
+var validateUsername = (username) => {
+	return /^[A-Za-z0-9]$/g.test(username);
+};
+var validatePassowrd = function(pass) {
+  let least8 = pass.length >= 8, cap = false, sml = false
+    , num = false, neith = false;
+  for(let i = 0; i < pass.length; i++) {
+    let ch = pass.charAt(i);
+    if(ch >= 'a' && ch <= 'z') sml = true;
+    else if(ch >= 'A' && ch <= 'Z') cap = true;
+    else if(ch >= '0' && ch <= '9') num = true;
+    else neith = true;
+  }
+  return least8 && cap && sml && num && neith;
+}
+
 function parse(data) {
 	if(data == null || data == undefined || data == "" || data === "") return {};
 	try { 
@@ -55,7 +71,10 @@ var checkLogin = (req, res) => {
 var Login = (req, res) => {
 	let usr = req.body["login-username"];
 	let psd = req.body["login-password"];
-	console.log(`${usr} Loged in`);
+	if(!validateUsername(usr)) {
+		return res.status(200).send({ok: false, message: "Username can only consist of letters and numbers"})
+	}
+
 	return users.loginfunc(usr, psd).then(login_result => {
 		if(login_result.ok == true) {
 
@@ -66,6 +85,7 @@ var Login = (req, res) => {
 			usersmap.set(id, usr);
 			if(sessions.get(usr)) sessions.get(usr).push(id)
 			else sessions.set(usr, [id])
+			console.log(`${usr} Loged in`);
 			return res.status(200).send({ok: true, message: "Login Successful"});
 		} else return res.status(200).send({ok: false, message: "Wrong Username or Password"});
 	}).catch(e => {
@@ -97,9 +117,16 @@ var Logout = (req, res) => {
 var Signup = (req, res) => {
 	let usr = req.body["signup-username"];
 	let psd = req.body["signup-password"];
-	console.log(`${usr} Signed up`);
+	if(!validateUsername(usr)) {
+		return res.status(200).send({ok: false, message: "Username can only consist of letters and numbers"})
+	}
+	if(!validatePassword(usr)) {
+		return res.status(200).send({ok: false, message: 
+			"Password should consist of at least on digit, one uppercase letter, one lowercase letter, and one sign, and be at least 8 digits"})
+	}
 	if(usr && psd)
 		return users.signup(usr, psd).then(r => {
+			console.log(`${usr} Signed up`);
 			return res.status(200).send(r);
 		}).catch(e => {
 			console.log(e.stack);
@@ -168,12 +195,14 @@ socketserver.on('connection' , (sock, req) => {
 
 		let jdata = parse(data);
 		if( jdata.command == 'add_chat' ){
-			if( jdata.chat_name !== "" && jdata.chat_name !== null && jdata.chat_name !== undefined){
-				message_handler.add_chat(user , jdata , send) ;
+			if( jdata.chat_name !== "" && jdata.chat_name !== null && jdata.chat_name !== undefined ){
+				if(/^[A-Za-z0-9\ ]+$/g.test(jdata.chat_name))
+					message_handler.add_chat(user , jdata , send) ;
+				else send(user, {ok: false, message: "chat name can only consist of lower case, upper case, numbers and spaces", command: "error"})
 			}
 		}
 		else if (jdata.command == 'new_message'){
-			if( jdata.chat_id !== "" && jdata.chat_id !== null && jdata.chat_id !== undefined){
+			if( jdata.chat_id !== "" && jdata.chat_id !== null && jdata.chat_id !== undefined && /^[0-9]*$/g.test(jdata.chat_id)){
 				message_handler.get_usernames(user, jdata)
 				.then(res => {
 					jdata.sender = user;
@@ -186,7 +215,8 @@ socketserver.on('connection' , (sock, req) => {
 			}
 		}
 		else if( jdata.command == 'add_user_to_chat' ){
-			if( jdata.chat_id !== "" && jdata.person !="" && jdata.person !== null && jdata.chat_id !== null && jdata.person !== undefined && jdata.chat_id !== undefined){
+			if( jdata.chat_id !== "" && jdata.person !="" && /^[0-9]*$/g.test(jdata.chat_id) && validateUsername(jdata.person)
+				&& jdata.person !== null && jdata.chat_id !== null && jdata.person !== undefined && jdata.chat_id !== undefined){
 				 message_handler.add_user ( user , jdata , send) ;
 			}
 		}
