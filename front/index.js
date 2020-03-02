@@ -352,7 +352,7 @@ var start = () => {
 	});
 
 	$("#add_chat").click(() => {
-		if($("#new_chat").val() != "" && chat_on != "")
+		if($("#new_chat").val() != "")
 			sock.send(JSON.stringify({command: "add_chat", chat_name: $("#new_chat").val()}))
 		$("#new_chat").val("")
 	});
