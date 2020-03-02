@@ -22,7 +22,7 @@ var sessionParser = session({
 });
 
 var validateUsername = (username) => {
-	return /^[A-Za-z0-9]$/g.test(username);
+	return /^[A-Za-z0-9]+$/g.test(username);
 };
 var validatePassowrd = function(pass) {
   let least8 = pass.length >= 8, cap = false, sml = false
@@ -202,7 +202,7 @@ socketserver.on('connection' , (sock, req) => {
 			}
 		}
 		else if (jdata.command == 'new_message'){
-			if( jdata.chat_id !== "" && jdata.chat_id !== null && jdata.chat_id !== undefined && /^[0-9]*$/g.test(jdata.chat_id)){
+			if( jdata.chat_id !== "" && jdata.chat_id !== null && jdata.chat_id !== undefined && /^[0-9]+$/g.test(jdata.chat_id)){
 				message_handler.get_usernames(user, jdata)
 				.then(res => {
 					jdata.sender = user;
@@ -215,7 +215,7 @@ socketserver.on('connection' , (sock, req) => {
 			}
 		}
 		else if( jdata.command == 'add_user_to_chat' ){
-			if( jdata.chat_id !== "" && jdata.person !="" && /^[0-9]*$/g.test(jdata.chat_id) && validateUsername(jdata.person)
+			if( jdata.chat_id !== "" && jdata.person !="" && /^[0-9]+$/g.test(jdata.chat_id) && validateUsername(jdata.person)
 				&& jdata.person !== null && jdata.chat_id !== null && jdata.person !== undefined && jdata.chat_id !== undefined){
 				 message_handler.add_user ( user , jdata , send) ;
 			}
