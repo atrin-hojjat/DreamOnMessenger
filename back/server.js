@@ -34,6 +34,11 @@ var validatePassword = function(pass) {
     else if(ch >= '0' && ch <= '9') num = true;
     else neith = true;
   }
+	console.log(least8)
+	console.log(cap)
+	console.log(sml)
+	console.log(num)
+	console.log(neith)
   return least8 && cap && sml && num && neith;
 }
 
@@ -120,7 +125,7 @@ var Signup = (req, res) => {
 	if(!validateUsername(usr)) {
 		return res.status(200).send({ok: false, message: "Username can only consist of letters and numbers"})
 	}
-	if(!validatePassword(usr)) {
+	if(!validatePassword(psd)) {
 		return res.status(200).send({ok: false, message: 
 			"Password should consist of at least on digit, one uppercase letter, one lowercase letter, and one sign, and be at least 8 digits"})
 	}
