@@ -196,7 +196,7 @@ var start = () => {
 															</div>
 															<div class="col-5 title align-self-center">
 																	<h2>${chat.name}</h2>
-																	<h3>${message}</h3>
+																	<h3>${decodeURIComponent(message)}</h3>
 															</div>
 															<div class="col-4 time">
 																	<span>${time}</span>
@@ -211,7 +211,7 @@ var start = () => {
 			return `
                 <div class="col-9 row sent-div">
                   <div class="col-10 message sent div-r">
-                    <div class="message-text">${message.message}</div>
+                    <div class="message-text">${decodeURIComponent(message.message)}</div>
                   </div>
                   <div class="col-1 mt-4 div-r">
                     <img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
@@ -225,7 +225,7 @@ var start = () => {
                   </div>
                   <div class="col-10 message recieved">
                     <div class="message-ussername">${message.sender}</div>
-                    <div class="message-text">${message.message}</div>
+                    <div class="message-text">${decodeURIComponent(message.message)}</div>
                   </div>
                 </div>`
 
@@ -347,7 +347,7 @@ var start = () => {
 	};
 	$("#send_message").click(() => {
 		if($("#new_message_text").val() != "" && chat_on != "")
-			sock.send(JSON.stringify({command: "new_message", chat_id: chat_on, message: $("#new_message_text").val()}))
+			sock.send(JSON.stringify({command: "new_message", chat_id: chat_on, message: encodeURIComponent($("#new_message_text").val())}))
 		$("#new_message_text").val("")
 	});
 
