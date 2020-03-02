@@ -293,7 +293,7 @@ var start = () => {
 		}, 1000);
 	};
 	var refresh_time = setInterval(() => {
-		re_load_messages();
+		re_load_chats();
 	}, 60000);
 
 
