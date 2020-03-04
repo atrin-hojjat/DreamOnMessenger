@@ -34,11 +34,6 @@ var validatePassword = function(pass) {
     else if(ch >= '0' && ch <= '9') num = true;
     else neith = true;
   }
-	console.log(least8)
-	console.log(cap)
-	console.log(sml)
-	console.log(num)
-	console.log(neith)
   return least8 && cap && sml && num && neith;
 }
 

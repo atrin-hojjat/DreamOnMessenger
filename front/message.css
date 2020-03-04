@@ -39,7 +39,8 @@
 }
 
 .message-text{
-	white-space: pre;
+	white-space: pre-wrap;
+	word-wrap: break-word;
 
 }
 
@@ -91,7 +92,7 @@
 }
 
 #MesssageBoxSection {
-	position: absolute;
+/*	position: absolute;
 	bottom: 10px;
-	right: 10px;
+	right: 10px;*/
 }
