@@ -182,7 +182,9 @@ var start = () => {
 	var last_message = {};
 	var not_seen_count = {};
 	var messages = {};
+	var has_unread = {}
 	var chat_on = "";
+	var unread_add
 
 	var gen_banner = (chat) => {
 		let emp = "", time = "", message = "", count = 0;
@@ -207,7 +209,12 @@ var start = () => {
 											`;
 	};
 	var create_message = (message) => {
-		if(message.sender == login_info.username) {
+		if(message.tag == "unread") {
+			return `<div id='new_messages_tag'> 
+					<hr class='new_message_line'> <h5 class='justify-content-center new_message_text'> Unread Messages </h5> <hr class='new_message_line'>
+					</div>
+				`
+		} else if(message.sender == login_info.username) {
 			return `
                 <div class="col-9 row sent-div">
                   <div class="col-10 message sent div-r">
@@ -263,6 +270,15 @@ var start = () => {
 		$("#chats").prepend(gen_banner(chat));
 		$(`#${chat.id}`).click(() => { load_chat(chat.id);})
 	}
+	$("#messages").scroll(() => {
+		if($("#messages")[0].scrollHeight - $("#messages")[0].scrollTop == $("#messages")[0].clientHeight) {
+			if($("#new_messages_tag").length)
+				$("#new_messages_tag").remove();
+				if(chat_on != "") messages[chat_on] = messages[chat_on].filter((val, ind, ar) => {return val.tag != "unread"; })
+			has_unread[chat_on] = false;
+		}
+
+	});
 
 	sock.onopen = (data) => {
 		cnt = 0;
@@ -297,6 +313,11 @@ var start = () => {
 	}, 60000);
 
 
+	var messages_scrolldown = () => {
+		$("#messages").animate({
+			scrollTop: $("#messages")[0].scrollHeight
+		}, 500);
+	};
 
 	sock.onmessage = (dataw) => {
 		let data = dataw.data
@@ -307,8 +328,16 @@ var start = () => {
 				last_message[jdata.chat_id] = {message: jdata.sender + ":" + jdata.message, time:Date.now()};
 				last_upd[jdata.chat_id] = Date.now();
 				if(jdata.chat_id == chat_on) {
+					if(has_unread[jdata.chat_id] != true) {
+						$("#messages").append(create_message({tag: "unread"}))
+					}
 					$("#messages").append(create_message(jdata))
+//					messages_scrolldown()
 				} else not_seen_count[jdata.chat_id] += 1;
+				if(has_unread[jdata.chat_id] != true) {
+					has_unread[jdata.chat_id] = true;
+					messages[jdata.chat_id].push({tag: "unread"})
+				}
 				messages[jdata.chat_id].push(jdata);
 				
 				$(`#${jdata.chat_id}`).remove()
@@ -318,6 +347,7 @@ var start = () => {
 				jdata.id = jdata.chat_id
 				not_seen_count[jdata.id]++;
 				last_upd[jdata.id] = Date.now();
+				has_unread[jdata.chat_id] = false;
 				chats[jdata.id] = jdata;
 				CHATS.push(jdata)
 				messages[jdata.id] = []
@@ -329,6 +359,7 @@ var start = () => {
 				{
 					not_seen_count[x.id] = 0;
 					messages[x.id] = []
+					has_unread[x.id] = false;
 					chats[x.id] = x
 				}
 				CHATS = jdata.chats
