@@ -277,7 +277,12 @@ var start = () => {
 				if(chat_on != "") messages[chat_on] = messages[chat_on].filter((val, ind, ar) => {return val.tag != "unread"; })
 			has_unread[chat_on] = false;
 		}
-
+		if($("#messages")[0].scrollHeight - $("#messages")[0].scrollTop - $("#messages")[0].clientHeight > 100) {
+			$("#scroll_down").fadeIn()
+		} else {
+			$("#scroll_down").fadeOut()
+		}
+		
 	});
 
 	sock.onopen = (data) => {
@@ -314,9 +319,28 @@ var start = () => {
 
 
 	var messages_scrolldown = () => {
-		$("#messages").animate({
-			scrollTop: $("#messages")[0].scrollHeight
-		}, 500);
+		if($("#new_messages_tag").length == 0)
+		{
+			$("#messages").animate({
+				scrollTop: $("#messages")[0].scrollHeight
+			}, 500);
+		} else {
+			let checkIn = () => {
+				let eltop = $("#new_messages_tag").offset().top;
+
+				return $("#messages").scrollTop() >= eltop;
+			}
+			if(checkIn()) {
+				$("#messages").animate({
+					scrollTop: $("#messages")[0].scrollHeight
+				}, 500);
+
+			} else {
+				$("#messages").animate({
+					scrollTop: $("#new_messages_tag").offset().top;
+				}, 500);
+			}
+		}
 	};
 
 	sock.onmessage = (dataw) => {
