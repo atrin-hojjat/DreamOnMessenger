@@ -1,3 +1,4 @@
 back/node_modules/
 back/package-lock.json
 */.*.swp
+tags
