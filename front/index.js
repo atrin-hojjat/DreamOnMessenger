@@ -270,11 +270,20 @@ var start = () => {
 		$("#chats").prepend(gen_banner(chat));
 		$(`#${chat.id}`).click(() => { load_chat(chat.id);})
 	}
-	$("#messages").scroll(() => {
-		if($("#messages")[0].scrollHeight - $("#messages")[0].scrollTop == $("#messages")[0].clientHeight) {
-			if($("#new_messages_tag").length)
+	var Scroll_func = () => {
+		let checkIn = () => {
+			if($("#new_messages_tag").length) {
+				let eltop = $("#new_messages_tag").offset().top;
+
+				return $("#messages").scrollTop() >= eltop;
+			} else return true;
+		}
+
+//		if($("#messages")[0].scrollHeight - $("#messages")[0].scrollTop == $("#messages")[0].clientHeight) {
+		if(checkIn()) {
+			if($("#messages").scrollTop() > 10 && $("#new_messages_tag").length)
 				$("#new_messages_tag").remove();
-				if(chat_on != "") messages[chat_on] = messages[chat_on].filter((val, ind, ar) => {return val.tag != "unread"; })
+			if(chat_on != "") messages[chat_on] = messages[chat_on].filter((val, ind, ar) => {return val.tag !== "unread"; })
 			has_unread[chat_on] = false;
 		}
 		if($("#messages")[0].scrollHeight - $("#messages")[0].scrollTop - $("#messages")[0].clientHeight > 100) {
@@ -283,7 +292,8 @@ var start = () => {
 			$("#scroll_down").fadeOut()
 		}
 		
-	});
+	}
+	$("#messages").scroll(Scroll_func);
 
 	sock.onopen = (data) => {
 		cnt = 0;
@@ -319,16 +329,14 @@ var start = () => {
 
 
 	var messages_scrolldown = () => {
-		if($("#new_messages_tag").length == 0)
+		if($("#new_messages_tag").length)
 		{
-			$("#messages").animate({
-				scrollTop: $("#messages")[0].scrollHeight
-			}, 500);
-		} else {
 			let checkIn = () => {
-				let eltop = $("#new_messages_tag").offset().top;
+				if($("#new_messages_tag").length) {
+					let eltop = $("#new_messages_tag").offset().top;
 
-				return $("#messages").scrollTop() >= eltop;
+					return $("#messages").scrollTop() >= eltop;
+				} else return true;
 			}
 			if(checkIn()) {
 				$("#messages").animate({
@@ -337,11 +345,16 @@ var start = () => {
 
 			} else {
 				$("#messages").animate({
-					scrollTop: $("#new_messages_tag").offset().top;
+					scrollTop: $("#new_messages_tag").offset().top
 				}, 500);
 			}
+		} else {
+			$("#messages").animate({
+				scrollTop: $("#messages")[0].scrollHeight
+			}, 500);
 		}
 	};
+	$("#scroll_down").click(messages_scrolldown);
 
 	sock.onmessage = (dataw) => {
 		let data = dataw.data
@@ -363,6 +376,7 @@ var start = () => {
 					messages[jdata.chat_id].push({tag: "unread"})
 				}
 				messages[jdata.chat_id].push(jdata);
+				Scroll_func();
 				
 				$(`#${jdata.chat_id}`).remove()
 				add_chat(chats[jdata.chat_id])
@@ -377,6 +391,7 @@ var start = () => {
 				messages[jdata.id] = []
 				not_seen_count[jdata.chat_id] = 0;
 				add_chat(jdata);
+				Scroll_func();
 				break;
 			case "get_chats":
 				for(x of jdata.chats)
