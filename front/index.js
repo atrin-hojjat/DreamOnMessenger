@@ -248,6 +248,7 @@ var start = () => {
 		if(messages[chat_id]) for(x of messages[chat_id]) {
 			$("#messages").append(create_message(x));
 		}
+		messages_scrolldown()
 	};
 
 	var re_load_chats = () => {
