@@ -193,15 +193,15 @@ var start = () => {
 		return `		
 											<div class="card p-3 chat-titl mb-0" id="${chat.id}">
 													<div class="row">
-															<div class="avatar col-3 pr-0">
+															<div class="avatar col-2 pr-0">
 																	<img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
 															</div>
-															<div class="col-5 title align-self-center">
+															<div class="col-6 title align-self-center">
 																	<h2>${chat.name}</h2>
 																	<h3>${decodeURIComponent(message)}</h3>
 															</div>
 															<div class="col-4 time">
-																	<span>${time}</span>
+																	<div class="time-text">${time}</div>
 																	${count==0?"":"<div class=\"number\">"+count+"</div>"}
 															</div>
 													</div>
@@ -210,8 +210,10 @@ var start = () => {
 	};
 	var create_message = (message) => {
 		if(message.tag == "unread") {
-			return `<div id='new_messages_tag'> 
-					<hr class='new_message_line'> <h5 class='justify-content-center new_message_text'> Unread Messages </h5> <hr class='new_message_line'>
+			return `<div id="new_messages_tag"> 
+					<hr class="new_message_line"> 
+					<div class="justify-content-center new_message_text"> Unread Messages </div> 
+					<hr class="new_message_line">
 					</div>
 				`
 		} else if(message.sender == login_info.username) {
