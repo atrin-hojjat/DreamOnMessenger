@@ -29,7 +29,7 @@ function time_since(date) {
   if (interval > 1) {
     return interval + " mins ago";
   }
-	return "A few seconds ago"
+	return "Just Now"
 }
 
 var show_just_waiting = () => {
@@ -182,7 +182,9 @@ var start = () => {
 	var last_message = {};
 	var not_seen_count = {};
 	var messages = {};
+	var has_unread = {}
 	var chat_on = "";
+	var unread_add
 
 	var gen_banner = (chat) => {
 		let emp = "", time = "", message = "", count = 0;
@@ -191,26 +193,52 @@ var start = () => {
 		return `		
 											<div class="card p-3 chat-titl mb-0" id="${chat.id}">
 													<div class="row">
-															<div class="avatar col-3 pr-0">
+															<div class="avatar col-2 pr-0">
 																	<img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
 															</div>
-															<div class="col-5 title align-self-center">
+															<div class="col-6 title align-self-center">
 																	<h2>${chat.name}</h2>
-																	<h3>${message}</h3>
+																	<h3>${decodeURIComponent(message)}</h3>
 															</div>
 															<div class="col-4 time">
-																	<span>${time}</span>
-																	<div class="number">${count}</div>
+																	<div class="time-text">${time}</div>
+																	${count==0?"":"<div class=\"number\">"+count+"</div>"}
 															</div>
 													</div>
 											</div>
 											`;
 	};
 	var create_message = (message) => {
-		console.log(message)
-		return `
-					<div class="message ${message.sender == login_info.username ? "sent" : "recieved"}">
-		${message.message}</div>`
+		if(message.tag == "unread") {
+			return `<div id="new_messages_tag"> 
+					<hr class="new_message_line"> 
+					<div class="justify-content-center new_message_text"> Unread Messages </div> 
+					<hr class="new_message_line">
+					</div>
+				`
+		} else if(message.sender == login_info.username) {
+			return `
+                <div class="col-9 row sent-div">
+                  <div class="col-10 message sent div-r">
+                    <div class="message-text">${decodeURIComponent(message.message)}</div>
+                  </div>
+                  <div class="col-1 mt-4 div-r">
+                    <img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
+                  </div>
+                </div>`
+		} else {
+			return `
+                  <div class="col-9 row">
+                  <div class="col-1 mt-4">
+                    <img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
+                  </div>
+                  <div class="col-10 message recieved">
+                    <div class="message-ussername">${message.sender}</div>
+                    <div class="message-text">${decodeURIComponent(message.message)}</div>
+                  </div>
+                </div>`
+
+		}
 	};
 
 	var load_chat = (chat_id) => {
@@ -222,6 +250,7 @@ var start = () => {
 		if(messages[chat_id]) for(x of messages[chat_id]) {
 			$("#messages").append(create_message(x));
 		}
+		messages_scrolldown()
 	};
 
 	var re_load_chats = () => {
@@ -244,6 +273,30 @@ var start = () => {
 		$("#chats").prepend(gen_banner(chat));
 		$(`#${chat.id}`).click(() => { load_chat(chat.id);})
 	}
+	var Scroll_func = () => {
+		let checkIn = () => {
+			if($("#new_messages_tag").length) {
+				let eltop = $("#new_messages_tag").offset().top;
+
+				return $("#messages").scrollTop() >= eltop;
+			} else return true;
+		}
+
+//		if($("#messages")[0].scrollHeight - $("#messages")[0].scrollTop == $("#messages")[0].clientHeight) {
+		if(checkIn()) {
+			if($("#messages").scrollTop() > 10 && $("#new_messages_tag").length)
+				$("#new_messages_tag").remove();
+			if(chat_on != "") messages[chat_on] = messages[chat_on].filter((val, ind, ar) => {return val.tag !== "unread"; })
+			has_unread[chat_on] = false;
+		}
+		if($("#messages")[0].scrollHeight - $("#messages")[0].scrollTop - $("#messages")[0].clientHeight > 100) {
+			$("#scroll_down").fadeIn()
+		} else {
+			$("#scroll_down").fadeOut()
+		}
+		
+	}
+	$("#messages").scroll(Scroll_func);
 
 	sock.onopen = (data) => {
 		cnt = 0;
@@ -274,10 +327,37 @@ var start = () => {
 		}, 1000);
 	};
 	var refresh_time = setInterval(() => {
-		re_load_messages();
+		re_load_chats();
 	}, 60000);
 
 
+	var messages_scrolldown = () => {
+		if($("#new_messages_tag").length)
+		{
+			let checkIn = () => {
+				if($("#new_messages_tag").length) {
+					let eltop = $("#new_messages_tag").offset().top;
+
+					return $("#messages").scrollTop() >= eltop;
+				} else return true;
+			}
+			if(checkIn()) {
+				$("#messages").animate({
+					scrollTop: $("#messages")[0].scrollHeight
+				}, 500);
+
+			} else {
+				$("#messages").animate({
+					scrollTop: $("#new_messages_tag").offset().top
+				}, 500);
+			}
+		} else {
+			$("#messages").animate({
+				scrollTop: $("#messages")[0].scrollHeight
+			}, 500);
+		}
+	};
+	$("#scroll_down").click(messages_scrolldown);
 
 	sock.onmessage = (dataw) => {
 		let data = dataw.data
@@ -288,9 +368,18 @@ var start = () => {
 				last_message[jdata.chat_id] = {message: jdata.sender + ":" + jdata.message, time:Date.now()};
 				last_upd[jdata.chat_id] = Date.now();
 				if(jdata.chat_id == chat_on) {
+					if(has_unread[jdata.chat_id] != true) {
+						$("#messages").append(create_message({tag: "unread"}))
+					}
 					$("#messages").append(create_message(jdata))
+//					messages_scrolldown()
 				} else not_seen_count[jdata.chat_id] += 1;
+				if(has_unread[jdata.chat_id] != true) {
+					has_unread[jdata.chat_id] = true;
+					messages[jdata.chat_id].push({tag: "unread"})
+				}
 				messages[jdata.chat_id].push(jdata);
+				Scroll_func();
 				
 				$(`#${jdata.chat_id}`).remove()
 				add_chat(chats[jdata.chat_id])
@@ -299,17 +388,20 @@ var start = () => {
 				jdata.id = jdata.chat_id
 				not_seen_count[jdata.id]++;
 				last_upd[jdata.id] = Date.now();
+				has_unread[jdata.chat_id] = false;
 				chats[jdata.id] = jdata;
 				CHATS.push(jdata)
 				messages[jdata.id] = []
 				not_seen_count[jdata.chat_id] = 0;
 				add_chat(jdata);
+				Scroll_func();
 				break;
 			case "get_chats":
 				for(x of jdata.chats)
 				{
 					not_seen_count[x.id] = 0;
 					messages[x.id] = []
+					has_unread[x.id] = false;
 					chats[x.id] = x
 				}
 				CHATS = jdata.chats
@@ -327,17 +419,20 @@ var start = () => {
 		sock.close();
 	};
 	$("#send_message").click(() => {
-		sock.send(JSON.stringify({command: "new_message", chat_id: chat_on, message: $("#new_message_text").val()}))
+		if($("#new_message_text").val() != "" && chat_on != "")
+			sock.send(JSON.stringify({command: "new_message", chat_id: chat_on, message: encodeURIComponent($("#new_message_text").val())}))
 		$("#new_message_text").val("")
 	});
 
 	$("#add_chat").click(() => {
-		sock.send(JSON.stringify({command: "add_chat", chat_name: $("#new_chat").val()}))
+		if($("#new_chat").val() != "")
+			sock.send(JSON.stringify({command: "add_chat", chat_name: $("#new_chat").val()}))
 		$("#new_chat").val("")
 	});
 
 	$("#invite").click(() => {
-		sock.send(JSON.stringify({command: "add_user_to_chat", person: $("#new_user").val(), chat_id: chat_on}))
+		if($("#new_user").val() != "" && chat_on != "")
+			sock.send(JSON.stringify({command: "add_user_to_chat", person: $("#new_user").val(), chat_id: chat_on}))
 		$("#new_user").val("")
 	});
 
