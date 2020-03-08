@@ -161,6 +161,14 @@ var chat_image_storage = multer.diskStorage({
 		if(message_handler.allowed(req.session.username, req.params.chat_id) == false) {
 			return cb("You are not allowed to alter this chat")
 		}
+		/*
+		fs.readdir("uploads/images/chats/", (err, files) => {
+			if(err) throw err;
+			
+			let reg = RegExp(`^${req.params.chat_id}.[a-z]+$`)
+
+			files.filter(name => req.test(name)).forEach(name => fs.unlink(name))
+		});*/
 		cb(null, req.params.chat_id + path.extname(file.originalname));
 	}
 })
@@ -191,6 +199,10 @@ var chat_image_hndl = multer({
 	}
 });
 
+var get_profile_image = (req, res) => {
+
+}
+
 
 
 var start = () => {
@@ -218,13 +230,15 @@ var start = () => {
 	app.put('/session/signup', Signup);
 	app.get("/session/check", checkLogin);
 
-	app.post("/users/profile/image", profile_image_hndl.single('avatar'), (req, res, call_back) => {
+	app.post("/users/profile/setimage", profile_image_hndl.single('avatar'), (req, res, call_back) => {
 		return res.status(200).send({ok: true})
 	});
+	app.use("/users/profile/image", express.static("./uploads/images/users"));
 //	app.get("/users/profile/image/:username", get_image);
 	app.post("/chats/:chat_id/image", chat_image_hndl.single('avatar'), (req, res, call_back) => {
 		return res.status(200).send({ok: true});
 	});
+//	app.use("/users/profile/image", express.static("./uploads/images/users");
 //	app.get("/chats/:chat_id/image", get_chat_image);
 
 	const server = https.createServer(app);
