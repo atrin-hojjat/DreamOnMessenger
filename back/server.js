@@ -6,6 +6,7 @@ const uuid = require('uuid');
 const bodyparser = require("body-parser");
 const cors = require("cors");
 var multer = require("multer");
+const path = require("path")
 
 const app = express();
 const socketserver = new WS.Server({noServer:true, clientTracing: false});
@@ -146,7 +147,7 @@ var profile_image_storage = multer.diskStorage({
 		if(!req.session.sessionId) {
 			return cb('Please Login');
 		}
-		cb(null, req.session.username);
+		cb(null, req.session.username + path.extname(file.originalname));
 	}
 })
 var chat_image_storage = multer.diskStorage({
@@ -160,11 +161,35 @@ var chat_image_storage = multer.diskStorage({
 		if(message_handler.allowed(req.session.username, req.params.chat_id) == false) {
 			return cb("You are not allowed to alter this chat")
 		}
-		cb(null, req.params.chat_id);
+		cb(null, req.params.chat_id + path.extname(file.originalname));
 	}
 })
-var profile_image_hndl = multer({storage: profile_image_storage});
-var chat_image_hndl = multer({storage: chat_image_storage});
+var profile_image_hndl = multer({
+	storage: profile_image_storage,
+	fileFilter: function (req, file, callback) {
+		var ext = path.extname(file.originalname);
+		if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+				return callback(new Error('Only images are allowed'))
+		}
+		callback(null, true)
+	},
+	limits: {
+		fieldSize: 1024 * 1024 * 10, // 10 MB
+	}
+});
+var chat_image_hndl = multer({
+	storage: chat_image_storage,
+	fileFilter: function (req, file, callback) {
+		var ext = path.extname(file.originalname);
+		if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+				return callback(new Error('Only images are allowed'))
+		}
+		callback(null, true)
+	},
+	limits: {
+		fieldSize: 1024 * 1024 * 10, // 10 MB
+	}
+});
 
 
 
