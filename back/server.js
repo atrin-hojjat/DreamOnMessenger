@@ -238,7 +238,7 @@ var start = () => {
 	app.post("/chats/:chat_id/image", chat_image_hndl.single('avatar'), (req, res, call_back) => {
 		return res.status(200).send({ok: true});
 	});
-	app.use("/chats/images", express.static("./uploads/images/chats");
+	app.use("/chats/images", express.static("./uploads/images/chats"));
 //	app.get("/chats/:chat_id/image", get_chat_image);
 
 	const server = https.createServer(app);
