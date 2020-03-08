@@ -5,6 +5,7 @@ const WS = require('ws') ;
 const uuid = require('uuid');
 const bodyparser = require("body-parser");
 const cors = require("cors");
+var multer = require("multer");
 
 const app = express();
 const socketserver = new WS.Server({noServer:true, clientTracing: false});
@@ -135,6 +136,42 @@ var Signup = (req, res) => {
 	else return res.status(200).send({ok: false, message: "Please fill out all the necessary forms"});
 }
 
+// Image handling
+
+var profile_image_storage = multer.diskStorage({
+	destination: function(req, file, cb) {
+		cb(null, './uploads/images/users');
+	},
+	filename: (req, file, cb) => {
+		sessionParser(req, {}, () => {
+			if(!req.session.sessionId) {
+				return cb('Please Login');
+			}
+			cb(null, req.session.username);
+		})
+	}
+})
+var chat_image_storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, "./uploads/images/chats");
+	},
+	filename: (req, file, cb) => {
+		sessionParser(req, {}, () => {
+			if(!req.session.sessionId) {
+				return cb("Please login");
+			}
+			if(message_handler.allowed(req.session.username, req.params.chat_id) == false) {
+				return cb("You are not allowed to alter this chat")
+			}
+			cb(null, req.params.chat_id);
+		})
+	}
+})
+var profile_image_hndl = multer({storage: profile_image_storage});
+var chat_image_hndl = multer({storage: chat_image_storage});
+
+
+
 var start = () => {
 /*
 	var whitelist = ['http://localhost:3000', 'http://localhost:8005']
@@ -159,6 +196,11 @@ var start = () => {
 	app.delete('/session/logout', Logout);
 	app.put('/session/signup', Signup);
 	app.get("/session/check", checkLogin);
+
+	app.post("/users/profile/image", upload_image);
+	app.get("/users/profile/image/:username", get_image);
+	app.post("/chats/:chat_id/image", upload_chat_image);
+	app.get("/chats/:chat_id/image", get_chat_image);
 
 	const server = https.createServer(app);
 
