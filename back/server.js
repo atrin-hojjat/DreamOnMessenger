@@ -176,8 +176,8 @@ var profile_image_hndl = multer({
 	storage: profile_image_storage,
 	fileFilter: function (req, file, callback) {
 		var ext = path.extname(file.originalname);
-		if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
-				return callback(new Error('Only images are allowed'))
+		if(/*ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && */ext !== '.jpeg') {
+				return callback(new Error('Only jpegs are allowed'))
 		}
 		callback(null, true)
 	},
