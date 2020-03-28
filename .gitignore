@@ -1,4 +1,6 @@
 back/node_modules/
 back/package-lock.json
 */.*.swp
+back/uploads/images/users
+back/uploads/images/chats
 tags
