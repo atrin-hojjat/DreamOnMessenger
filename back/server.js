@@ -7,6 +7,7 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 var multer = require("multer");
 const path = require("path")
+const fs = require("fs");
 
 const app = express();
 const socketserver = new WS.Server({noServer:true, clientTracing: false});
@@ -147,7 +148,7 @@ var profile_image_storage = multer.diskStorage({
 		if(!req.session.sessionId) {
 			return cb('Please Login');
 		}
-		cb(null, req.session.usernam);
+		cb(null, req.session.username);
 	}
 })
 var chat_image_storage = multer.diskStorage({
@@ -204,7 +205,8 @@ var get_profile_image = (req, res) => {
 }
 
 var check_profile_image_perm = (req, res, next) => {
-	if(req.session.sessionId && req.session.username) return next();
+	console.log(req.session.username + "Changing image")
+	if(req.session.sessionId && req.session.username) return next()
 	return res.status(403).send({message: "Please Login First"});
 }
 
@@ -241,21 +243,22 @@ var start = () => {
 	app.put('/session/signup', Signup);
 	app.get("/session/check", checkLogin);
 
-	app.post("/users/profile/setimage", prof_image_check_perm, profile_image_hndl.single('avatar'), (req, res, call_back) => {
+	app.post("/users/profile/setimage", check_profile_image_perm, profile_image_hndl.single('avatar'), (req, res, call_back) => {
 		return res.status(200).send({ok: true})
 	});
 	app.use("/users/profile/image", express.static("./uploads/images/users"));
 //	app.get("/users/profile/image/:username", get_image);
-	app.post("/chats/:chat_id/image", chat_image_check_perm, chat_image_hndl.single('avatar'), (req, res, call_back) => {
+	app.post("/chats/:chat_id/image", check_chat_image_perm, chat_image_hndl.single('avatar'), (req, res, call_back) => {
 		return res.status(200).send({ok: true});
 	});
 	app.use("/chats/images", express.static("./uploads/images/chats"));
 //	app.get("/chats/:chat_id/image", get_chat_image);
 
 
-	app.use((res, req, call_back) => {
+	app.use((req, res, call_back) => {
 		// 404
 		// 
+		return res.status(404).send("NOT FOUNT")
 	});
 
 	const server = https.createServer(app);
