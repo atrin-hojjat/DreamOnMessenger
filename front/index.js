@@ -176,11 +176,11 @@ var start = () => {
 	$("#UserAvatarImg").attr("src", `/users/profile/image/${login_info.username}`)
 	$("#ChangeAvatar").click((e) => {
 		e.preventDefault();
-		let form = $("AvatarChangeForm")[0]
+		let form = $("#AvatarUpload")[0]
 		let data = new FormData(form);
 		$.ajax({
 			type: "POST",
-			enctype: "multipart/form-data",
+			contentType: "multipart/form-data",
 			url: "/users/profile/setimage",
 			data: data,
 			processData: false,
@@ -189,7 +189,7 @@ var start = () => {
 			timeout: 60 * 1000,
 			success: (ret, status) => {
 				if(ret.ok == true) {
-					$("#UserAvatarImg").attr("src", `/users/profile/image/${login_info.username}`)
+					$("#UserAvatarImg").removeAttr("src").attr("src", `/users/profile/image/${login_info.username}`)
 				} else alert(ret.message);
 			}, error: (err) => {
 				console.log(err);
