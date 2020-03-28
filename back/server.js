@@ -147,7 +147,7 @@ var profile_image_storage = multer.diskStorage({
 		if(!req.session.sessionId) {
 			return cb('Please Login');
 		}
-		cb(null, req.session.username + path.extname(file.originalname));
+		cb(null, req.session.usernam);
 	}
 })
 var chat_image_storage = multer.diskStorage({
@@ -169,14 +169,14 @@ var chat_image_storage = multer.diskStorage({
 
 			files.filter(name => req.test(name)).forEach(name => fs.unlink(name))
 		});*/
-		cb(null, req.params.chat_id + path.extname(file.originalname));
+		cb(null, req.params.chat_id);
 	}
 })
 var profile_image_hndl = multer({
 	storage: profile_image_storage,
 	fileFilter: function (req, file, callback) {
 		var ext = path.extname(file.originalname);
-		if(/*ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && */ext !== '.jpeg') {
+		if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
 				return callback(new Error('Only jpegs are allowed'))
 		}
 		callback(null, true)
@@ -201,6 +201,17 @@ var chat_image_hndl = multer({
 
 var get_profile_image = (req, res) => {
 
+}
+
+var check_profile_image_perm = (req, res, next) => {
+	if(req.session.sessionId && req.session.username) return next();
+	return res.status(403).send({message: "Please Login First"});
+}
+
+var check_chat_image_perm = (req, res, next) => {
+	if(req.session.sessionId && req.session.username 
+		&& message_handler.allowed(req.session.username, req.params.chat_id) == true) return next();
+	return res.status(403).send({message: "Permission Denied"})
 }
 
 
@@ -230,16 +241,22 @@ var start = () => {
 	app.put('/session/signup', Signup);
 	app.get("/session/check", checkLogin);
 
-	app.post("/users/profile/setimage", profile_image_hndl.single('avatar'), (req, res, call_back) => {
+	app.post("/users/profile/setimage", prof_image_check_perm, profile_image_hndl.single('avatar'), (req, res, call_back) => {
 		return res.status(200).send({ok: true})
 	});
 	app.use("/users/profile/image", express.static("./uploads/images/users"));
 //	app.get("/users/profile/image/:username", get_image);
-	app.post("/chats/:chat_id/image", chat_image_hndl.single('avatar'), (req, res, call_back) => {
+	app.post("/chats/:chat_id/image", chat_image_check_perm, chat_image_hndl.single('avatar'), (req, res, call_back) => {
 		return res.status(200).send({ok: true});
 	});
 	app.use("/chats/images", express.static("./uploads/images/chats"));
 //	app.get("/chats/:chat_id/image", get_chat_image);
+
+
+	app.use((res, req, call_back) => {
+		// 404
+		// 
+	});
 
 	const server = https.createServer(app);
 
