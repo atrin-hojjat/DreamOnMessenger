@@ -173,6 +173,30 @@ var logout = () => {
 }
 
 var start = () => { 
+	$("#UserAvatarImg").attr("src", `/users/profile/image/${login_info.username}`)
+	$("#ChangeAvatar").click((e) => {
+		e.preventDefault();
+		let form = $("AvatarChangeForm")[0]
+		let data = new FormData(form);
+		$.ajax({
+			type: "POST",
+			enctype: "multipart/form-data",
+			url: "/users/profile/setimage",
+			data: data,
+			processData: false,
+			contentType: false,
+			cache: false,
+			timeout: 60 * 1000,
+			success: (ret, status) => {
+				if(ret.ok == true) {
+					$("#UserAvatarImg").attr("src", `/users/profile/image/${login_info.username}`)
+				} else alert(ret.message);
+			}, error: (err) => {
+				console.log(err);
+			}
+
+		});
+	})
 	let socketid = { address: 'localhost', port: 8080};
 	sock = new WebSocket(`ws://${window.location.host}/`);
 
@@ -194,7 +218,7 @@ var start = () => {
 											<div class="card p-3 chat-titl mb-0" id="${chat.id}">
 													<div class="row">
 															<div class="avatar col-2 pr-0">
-																	<img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
+																	<img src="/chats/images/${chat.id}" alt="Avatar" class="w-100 rounded-circle">
 															</div>
 															<div class="col-6 title align-self-center">
 																	<h2>${chat.name}</h2>
@@ -223,14 +247,14 @@ var start = () => {
                     <div class="message-text">${decodeURIComponent(message.message)}</div>
                   </div>
                   <div class="col-1 mt-4 div-r">
-                    <img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
+                    <img src="/users/profile/image/${login_info.username}" alt="Avatar" class="w-100 rounded-circle">
                   </div>
                 </div>`
 		} else {
 			return `
                   <div class="col-9 row">
                   <div class="col-1 mt-4">
-                    <img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
+                    <img src="/users/profile/image/${message.sender}" alt="Avatar" class="w-100 rounded-circle">
                   </div>
                   <div class="col-10 message recieved">
                     <div class="message-ussername">${message.sender}</div>

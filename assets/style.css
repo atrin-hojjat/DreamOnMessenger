@@ -188,3 +188,20 @@
     
 }
 
+img {
+	object-fit: cover;
+}
+
+.drop {
+	position: absolute;
+	width: 100px;
+	z-index: 100;
+	display:flex;
+	opacity: 0;
+	transition: opacity .15s ease-out;
+}
+
+.has_drop:focus-within .drop {
+	opacity: 1;
+	pointer-events:auto;
+}

@@ -43,8 +43,16 @@
             </div> -->
             <div class="col-3 bg-dr-second pt-3 pb-3 px-0 vh-100 bg-test yfluid" id="MessageList">
               <div class="row mb-4">
-                <div class="col-3 avatar px-4 ml-3">
-                  <img src="https://i.pravatar.cc/300" alt="Avatar" class="w-100 rounded-circle">
+                <div id="UserAvatar" class="col-3 avatar px-4 ml-3 has_drop">
+									<a href="#">
+									<img id="UserAvatarImg" src="/users/profile/image/${login_info.username}" alt="Avatar" class="w-100 rounded-circle">
+									</a>
+									<div class="drop">
+										<form method="post" enctype="multipart/form-data" id="Avatar Upload">
+											<input type="file" name="avatar"/>
+											<input type="submit" value="Submit" id="ChangeAvatar"/>
+										</form>
+									</div>
               </div>
                 <div class="col-8">
                   <div class="DOM-title px-2 mb-2 mt-2">DreamOnMessenger</div>  
