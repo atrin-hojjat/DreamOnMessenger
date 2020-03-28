@@ -173,6 +173,7 @@ var logout = () => {
 }
 
 var start = () => { 
+	$("#new_chat").hide()
 	$("#UserAvatarImg").attr("src", `/users/profile/image/${login_info.username}`)
 	$("#ChangeAvatar").click((e) => {
 		e.preventDefault();
@@ -209,6 +210,7 @@ var start = () => {
 	var has_unread = {}
 	var chat_on = "";
 	var unread_add
+	var new_chat_stat = false
 
 	var gen_banner = (chat) => {
 		let emp = "", time = "", message = "", count = 0;
@@ -449,9 +451,33 @@ var start = () => {
 	});
 
 	$("#add_chat").click(() => {
+		if(new_chat_stat == false) {
+			$(() => {
+				$("#new_chat").show('slide', {direction: 'right', queue: false}, 1000);
+				$("#new_chat_but").addClass("input-group-append");
+			})
+			new_chat_stat = true;
+			$("new_chat").focus();
+			return ;
+		}
 		if($("#new_chat").val() != "")
 			sock.send(JSON.stringify({command: "add_chat", chat_name: $("#new_chat").val()}))
 		$("#new_chat").val("")
+	});
+
+	$("#new_chat_group").focusout(() => {
+		console.log("------------");
+		console.log($("#new_chat")[0].is(":focus"));
+		console.log($("#add_chat")[0].is(":focus"));
+		let tt = false;$("#new_chat").is(":focus") || $("#add_chat").is(":focus");
+
+		if(new_chat_stat == true) {
+			$(() => {
+				$("#new_chat").hide('slide', {direction: 'left', queue: false}, 250);
+				$("#new_chat_but").removeClass("input-group-append");
+			})
+			new_chat_stat = false;
+		}
 	});
 
 	$("#invite").click(() => {
