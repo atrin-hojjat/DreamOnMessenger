@@ -1,6 +1,7 @@
 // connect to database 
 // postgresql
 // databases : users
+const dotenv = require("dotenv").config();
 const { Pool } = require("pg");
 const users = require("./users.js");
 
