@@ -4,3 +4,4 @@ back/package-lock.json
 back/uploads/images/users
 back/uploads/images/chats
 tags
+*/.env
