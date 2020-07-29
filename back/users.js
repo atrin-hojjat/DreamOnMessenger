@@ -1,4 +1,5 @@
 // handle user login const sjcl = require("sjcl");
+const dotenv = require("dotenv").config();
 const {Pool} = require("pg");
 const sjcl = require("sjcl");
 
