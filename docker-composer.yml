@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  db:
+    image: 'postgres:12'
+    environment: 
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    volumes:
+      - /root/atrin-cicd/dreamon-v0/database/postgres_data:/var/lib/postgresql/data
+  server:
+    build: .
+    environment:
+      - "PGHOST=db"
+      - "PGUSER=postgres"
+      - "PGPASSWORD="
+      - "PGDATABASE=dom"
+      - "PGPORT=5432"
+      - "SECRET=1234ThisIsABadIdeaDon'tTryThisAtHome"
+    command: npm start
+    ports:
+      - 127.0.0.1:8075:8080
+    depends_on:
+      - db
