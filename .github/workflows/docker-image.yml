@@ -8,9 +8,9 @@ on:
 
 jobs:
 
-  build:
+  build_and_deploy_docker:
 
-    runs-on: VPSAtrinMahdiGermany
+    runs-on: [self-hosted, linux]
 
     steps:
     - uses: actions/checkout@v2
