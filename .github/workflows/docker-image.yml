@@ -15,6 +15,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker-compose build --pull --force-rm
+      run: docker-compose build --pull
     - name: Deploy
       run: docker-compose up -d
