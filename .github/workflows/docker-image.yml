@@ -14,6 +14,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Remove previous instances    
+      run: |
+        docker-compose down
+        docker-compose stop
+        docker-compose rm -f
+
     - name: Build the Docker image
       run: docker-compose build --pull
     - name: Deploy
