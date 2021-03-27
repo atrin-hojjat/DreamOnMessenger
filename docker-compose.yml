@@ -8,14 +8,16 @@ services:
     volumes:
       - /root/atrin-cicd/dreamon-v0/database/postgres_data:/var/lib/postgresql/data
   server:
-    build: .
-    args:
-      - PGHOST=db
-      - PGUSER=postgres
-      - PGPASSWORD=
-      - PGDATABASE=dom
-      - PGPORT=5432
-      - SECRET=1234ThisIsABadIdeaDontTryThisAtHome
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - PGHOST=db
+        - PGUSER=postgres
+        - PGPASSWORD=
+        - PGDATABASE=dom
+        - PGPORT=5432
+        - SECRET=1234ThisIsABadIdeaDontTryThisAtHome
     environment:
       - "PGHOST=db"
       - "PGUSER=postgres"
