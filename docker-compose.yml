@@ -9,13 +9,20 @@ services:
       - /root/atrin-cicd/dreamon-v0/database/postgres_data:/var/lib/postgresql/data
   server:
     build: .
+    args:
+      - PGHOST=db
+      - PGUSER=postgres
+      - PGPASSWORD=
+      - PGDATABASE=dom
+      - PGPORT=5432
+      - SECRET=1234ThisIsABadIdeaDontTryThisAtHome
     environment:
       - "PGHOST=db"
       - "PGUSER=postgres"
       - "PGPASSWORD="
       - "PGDATABASE=dom"
       - "PGPORT=5432"
-      - "SECRET=1234ThisIsABadIdeaDon'tTryThisAtHome"
+      - "SECRET=1234ThisIsABadIdeaDontTryThisAtHome"
     command: npm start
     ports:
       - 127.0.0.1:8075:8080
