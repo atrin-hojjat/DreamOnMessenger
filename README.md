@@ -1,6 +1,12 @@
 # DreamOnMessenger
 [DreamOnMessenger](https://old.dom.atrin-hojjat.com/index.htm), aka DOM, is a Socket based messenger built using Nodejs jquery and bootstrap
-[![Docker Image CI](https://github.com/atrin-hojjat/DreamOnMessenger/actions/workflows/docker-image.yml/badge.svg)](https://github.com/atrin-hojjat/DreamOnMessenger/actions/workflows/docker-image.yml)
+
+<p align="center">
+  <a href="https://github.com/atrin-hojjat/DreamOnMessenger/actions/workflows/docker-image.yml">
+    <img src="https://github.com/atrin-hojjat/DreamOnMessenger/actions/workflows/docker-image.yml/badge.svg" alt="Docker Image CI"/>
+  </a>
+</p>
+
 ![Login Page](DOM-login.png)
 
 # Running Locally
