@@ -25,7 +25,7 @@ jobs:
     - name: Build the Docker image
       env:
         PG_DATA: /root/atrin-cicd/dreamon-v0/database/postgres_data
-      run: docker-compose build --pull
+      run: docker-compose build --pull --force-rm
     - name: Deploy
       env:
         PG_DATA: /root/atrin-cicd/dreamon-v0/database/postgres_data
