@@ -21,6 +21,7 @@ RUN apk add --no-cache postgresql-client
 WORKDIR /usr/src/dreamonmessenger
 COPY ./ ./
 
+RUN cd back
 RUN npm install
 
 EXPOSE 8080
