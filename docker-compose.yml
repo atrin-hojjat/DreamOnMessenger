@@ -26,7 +26,6 @@ services:
       - "PGDATABASE=DOM"
       - "PGPORT=5432"
       - "SECRET=1234ThisIsABadIdeaDontTryThisAtHome"
-    command: npm start
     ports:
       - 127.0.0.1:8075:8080
     depends_on:
