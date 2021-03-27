@@ -26,4 +26,4 @@ RUN npm install
 
 EXPOSE 8080
 CMD ["cd", "back"]
-CMD [ "node", "server.js" ]
+CMD [ "node", "main.js" ]
