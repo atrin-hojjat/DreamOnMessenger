@@ -7,6 +7,7 @@ You can Run and build the docker image using the provided docker compose file.
 ```
 PG_DATA=postgres docker-compose up -d --build
 ```
+You can now access the server on [127.0.0.1:8075/index.htm](127.0.0.1:8075/index.htm)
 
 ## Using Node
 ### Cloning
@@ -29,3 +30,6 @@ npm install
 
 PGHOST=localhost PGUSER=postgres PGPASSWORD=postgres PGDATABASE=dom PGPORT=5432 SECRET=thisshouldbearandomstring npm start
 ```
+
+### You're done!
+You can now access the server on [127.0.0.1:8080/index.htm](127.0.0.1:8080/index.htm)
