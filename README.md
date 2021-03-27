@@ -1,5 +1,5 @@
 # DreamOnMessenger
-[DreamOnMessenger](https://old.dom.atrin-hojjat.com), aka DOM, is a Socket based messenger built using Nodejs jquery and bootstrap
+[DreamOnMessenger](https://old.dom.atrin-hojjat.com/index.htm), aka DOM, is a Socket based messenger built using Nodejs jquery and bootstrap
 
 # Running Locally
 ## Using docker (Only Linux at the moment)
