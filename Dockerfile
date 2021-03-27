@@ -22,8 +22,8 @@ WORKDIR /usr/src/dreamonmessenger
 COPY ./ ./
 
 
-RUN cd back && \
-      npm install
+WORKDIR /usr/src/dreamonemessenger/back
+RUN npm install
 
 EXPOSE 8080
-CMD [ "node", "back/main.js" ]
+CMD [ "node", "main.js" ]
