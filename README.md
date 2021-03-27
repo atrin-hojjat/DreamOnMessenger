@@ -9,10 +9,16 @@ PG_DATA=postgres docker-compose up -d --build
 ```
 
 ## Using Node
-### Setting up database
-To run the server locally, you'll need a postgresql database created using file in `/back/PD/DOM_DB.sql`.
+### Cloning
+Just run:
 ```
-psql -d postgres -f /back/PD/DOM_DB.sql
+git clone https://github.com/atrin-hojjat/DreamOnMessenger.git
+cd DreamOnMessenger
+```
+### Setting up database
+To run the server locally, you'll need a postgresql database created using file in `./back/PD/DOM_DB.sql`.
+```
+psql -d postgres -f ./back/PD/DOM_DB.sql
 ```
 
 ### Running the server
