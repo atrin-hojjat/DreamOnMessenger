@@ -2,7 +2,7 @@
 
 -- DROP DATABASE "DOMessenger";
 
-CREATE DATABASE "DOMessenger"
+CREATE DATABASE "DOM"
     WITH 
     ENCODING = 'UTF8'
     LC_COLLATE = 'C'
@@ -10,14 +10,15 @@ CREATE DATABASE "DOMessenger"
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
 --user DOMessenger
-create table users ( 
+\connect DOM
+create table if not exists users ( 
 	username varchar(32) NOT NULL primary key,
 	password varchar NOT NULL);
-create table chats ( 
+create table if not exists chats ( 
 	name varchar(32) NOT NULL,
 	chat_id SERIAL PRIMARY KEY);
 	
-create table chat_user (
+create table if not exists chat_user (
 		chat_id serial,
 		username varchar(32) not null
 	);
