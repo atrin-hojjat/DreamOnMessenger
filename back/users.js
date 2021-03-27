@@ -7,6 +7,7 @@ const pool = new Pool();
 
 var signup = async (username, password) => {
   console.log("Checking if user exists");
+  console.log(pool);
   return await pool
     .query("select username from users where username=$1", [username])
     .then(async (res) => {

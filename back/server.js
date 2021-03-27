@@ -78,12 +78,10 @@ var Login = (req, res) => {
   let usr = req.body["login-username"];
   let psd = req.body["login-password"];
   if (!validateUsername(usr)) {
-    return res
-      .status(200)
-      .send({
-        ok: false,
-        message: "Username can only consist of letters and numbers",
-      });
+    return res.status(200).send({
+      ok: false,
+      message: "Username can only consist of letters and numbers",
+    });
   }
 
   return users
@@ -134,23 +132,19 @@ var Logout = (req, res) => {
 var Signup = (req, res) => {
   let usr = req.body["signup-username"];
   let psd = req.body["signup-password"];
-  console.log(`Signing Up user {usr}`);
+  console.log(`Signing Up user ${usr}`);
   if (!validateUsername(usr)) {
-    return res
-      .status(200)
-      .send({
-        ok: false,
-        message: "Username can only consist of letters and numbers",
-      });
+    return res.status(200).send({
+      ok: false,
+      message: "Username can only consist of letters and numbers",
+    });
   }
   if (!validatePassword(psd)) {
-    return res
-      .status(200)
-      .send({
-        ok: false,
-        message:
-          "Password should consist of at least on digit, one uppercase letter, one lowercase letter, and one sign, and be at least 8 digits",
-      });
+    return res.status(200).send({
+      ok: false,
+      message:
+        "Password should consist of at least on digit, one uppercase letter, one lowercase letter, and one sign, and be at least 8 digits",
+    });
   }
   console.log("Username and password validated, contacting database");
   if (usr && psd)
