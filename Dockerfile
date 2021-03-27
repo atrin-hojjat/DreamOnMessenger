@@ -22,7 +22,7 @@ WORKDIR /usr/src/dreamonmessenger
 COPY ./ ./
 
 
-WORKDIR /usr/src/dreamonemessenger/back
+WORKDIR /usr/src/dreamonmessenger/back
 RUN npm install
 
 EXPOSE 8080
