@@ -23,7 +23,5 @@ COPY ./ ./
 
 RUN npm install
 
-RUN psql --host $PGHOST --port $PGPORT --username $PGUSER --password $PGPASSWORD -d postgresql -f ./back/PG/DOM_DB.sql
-
 EXPOSE 8080
 CMD ['npm', 'start']
