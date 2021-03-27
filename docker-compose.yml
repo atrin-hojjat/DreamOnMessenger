@@ -1,9 +1,9 @@
-version: '3.7'
+version: "3.7"
 
 services:
   db:
-    image: 'postgres:12'
-    environment: 
+    image: "postgres:12"
+    environment:
       - "POSTGRES_HOST_AUTH_METHOD=trust"
       - "POSTGRES_PASSWORD=postgres"
     volumes:
@@ -17,14 +17,14 @@ services:
         - PGHOST=db
         - PGUSER=postgres
         - PGPASSWORD=
-        - PGDATABASE=DOM
+        - PGDATABASE=dom
         - PGPORT=5432
         - SECRET=1234ThisIsABadIdeaDontTryThisAtHome
     environment:
       - "PGHOST=db"
       - "PGUSER=postgres"
       - "PGPASSWORD=postgres"
-      - "PGDATABASE=DOM"
+      - "PGDATABASE=dom"
       - "PGPORT=5432"
       - "SECRET=1234ThisIsABadIdeaDontTryThisAtHome"
     ports:
