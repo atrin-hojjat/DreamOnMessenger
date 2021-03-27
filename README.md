@@ -16,9 +16,9 @@ git clone https://github.com/atrin-hojjat/DreamOnMessenger.git
 cd DreamOnMessenger
 ```
 ### Setting up database
-To run the server locally, you'll need a postgresql database created using file in `./back/PD/DOM_DB.sql`.
+To run the server locally, you'll need a postgresql database created using file in `./back/PG/DOM_DB.sql`.
 ```
-psql -d postgres -f ./back/PD/DOM_DB.sql
+psql -d postgres -f ./back/PG/DOM_DB.sql
 ```
 
 ### Running the server
