@@ -5,6 +5,7 @@ services:
     image: 'postgres:12'
     environment: 
       - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - "POSTGRES_PASSWORD=postgres"
     volumes:
       - $PG_DATA:/var/lib/postgresql/data
       - ./back/PG/DOM_DB.sql:/docker-entrypoint-initdb.d/init.sql
@@ -22,7 +23,7 @@ services:
     environment:
       - "PGHOST=db"
       - "PGUSER=postgres"
-      - "PGPASSWORD="
+      - "PGPASSWORD=postgres"
       - "PGDATABASE=DOM"
       - "PGPORT=5432"
       - "SECRET=1234ThisIsABadIdeaDontTryThisAtHome"
