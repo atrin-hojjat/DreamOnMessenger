@@ -6,11 +6,12 @@ const sjcl = require("sjcl");
 const pool = new Pool();
 
 var signup = async (username, password) => {
+  console.log("Checking if user exists");
   return await pool
     .query("select username from users where username=$1", [username])
     .then(async (res) => {
+      console.log("Checking database results");
       console.log(res);
-      console.log("Checking if user exists");
       if (res.rows.length === 0)
         return await pool
           .query("insert into users(username, password) values($1, $2)", [
