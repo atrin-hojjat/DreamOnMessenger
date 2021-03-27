@@ -7,6 +7,7 @@ services:
       - "POSTGRES_HOST_AUTH_METHOD=trust"
     volumes:
       - /root/atrin-cicd/dreamon-v0/database/postgres_data:/var/lib/postgresql/data
+      - ./back/PG/DOM_DB.sql:/docker-entrypoint-initdb.d/init.sql
   server:
     build:
       context: .
@@ -15,14 +16,14 @@ services:
         - PGHOST=db
         - PGUSER=postgres
         - PGPASSWORD=
-        - PGDATABASE=dom
+        - PGDATABASE=DOM
         - PGPORT=5432
         - SECRET=1234ThisIsABadIdeaDontTryThisAtHome
     environment:
       - "PGHOST=db"
       - "PGUSER=postgres"
       - "PGPASSWORD="
-      - "PGDATABASE=dom"
+      - "PGDATABASE=DOM"
       - "PGPORT=5432"
       - "SECRET=1234ThisIsABadIdeaDontTryThisAtHome"
     command: npm start
