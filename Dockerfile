@@ -21,8 +21,9 @@ RUN apk add --no-cache postgresql-client
 WORKDIR /usr/src/dreamonmessenger
 COPY ./ ./
 
-RUN cd back
-RUN npm install
+
+RUN cd back && \
+      npm install
 
 EXPOSE 8080
 CMD [ "node", "back/main.js" ]
