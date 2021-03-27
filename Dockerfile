@@ -25,4 +25,4 @@ RUN cd back
 RUN npm install
 
 EXPOSE 8080
-CMD [ "cd", "back", "&&", "node", "main.js" ]
+CMD [ "node", "back/main.js" ]
